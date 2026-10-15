@@ -1,0 +1,45 @@
+.cctv-mode .page-heading, .cctv-mode .operational-strip { display: none; }
+.cctv-wall { display: flex; flex-direction: column; height: calc(100dvh - 174px); min-height: 520px; margin-top: 18px; background: #101914; border: 1px solid #344037; border-radius: 7px; overflow: hidden; }
+.cctv-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 15px; padding: 16px; border-bottom: 1px solid #304035; }
+.cctv-wall-title { display: flex; align-items: center; gap: 11px; color: #a7c9b1; flex-shrink: 0; }
+.cctv-wall-title > div { display: grid; gap: 7px; }
+.cctv-wall-title strong { font-size: 11px; letter-spacing: 1.2px; font-weight: 500; }
+.cctv-wall-title strong span { padding: 3px 7px; border: 1px solid #38533f; border-radius: 3px; margin-left: 9px; letter-spacing: 0; }
+.cctv-wall-title small { font-size: 10px; color: #8ca392; }
+.cctv-wall-title small i { display: inline-block; width: 5px; height: 5px; border-radius: 50%; background: #85bf95; margin-right: 4px; }
+.cctv-controls { display: flex; align-items: center; justify-content: flex-end; flex-wrap: wrap; gap: 7px; }
+.cctv-controls button { display: inline-flex; align-items: center; justify-content: center; gap: 7px; padding: 9px 11px; background: #1a281f; border: 1px solid #354a3b; border-radius: 4px; color: #b7cbbb; font-size: 10px; }
+.cctv-controls button:hover, .cctv-controls button.active { background: #2a4432; border-color: #7baa89; color: #e2efe5; }
+.cctv-controls button:disabled { opacity: .45; cursor: not-allowed; }
+.cctv-grid { display: grid; flex: 1; min-height: 0; grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: repeat(2, minmax(0, 1fr)); gap: 14px; padding: 14px; }
+.cctv-card { min-width: 0; min-height: 0; display: flex; flex-direction: column; border: 1px solid #3a4b3e; border-radius: 5px; overflow: hidden; background: #080e0b; }
+.cctv-card.has-incident { border-color: #be8b45; }
+.cctv-card > header { display: flex; align-items: center; justify-content: space-between; padding: 10px 12px; border-bottom: 1px solid #2c3d32; background: #17251c; }
+.cctv-card > header > div { display: flex; align-items: center; gap: 9px; color: #a9c1b0; font-size: 11px; }
+.cctv-card > header strong { font-weight: 600; color: #d7e4da; }
+.cctv-card > header span { color: #7f9887; padding-left: 8px; border-left: 1px solid #3b4d40; }
+.cctv-card > header button { display: flex; background: transparent; color: #9ebba7; padding: 2px; }
+.cctv-video { position: relative; flex: 1; overflow: hidden; min-height: 0; }
+.cctv-video .camera-stream, .cctv-focus-video .camera-stream { object-fit: contain; }
+.cctv-connection, .cctv-source { position: absolute; top: 12px; padding: 5px 7px; color: #d3ded6; background: #08130dd9; font-size: 9px; border-radius: 3px; pointer-events: none; }
+.cctv-connection { left: 12px; display: flex; align-items: center; gap: 6px; }
+.cctv-connection i { width: 5px; height: 5px; background: #c6a16d; border-radius: 50%; }
+.cctv-connection.connected i { background: #87c797; }
+.cctv-source { right: 12px; font-size: 8px; letter-spacing: .5px; }
+.cctv-incident { position: absolute; bottom: 12px; left: 12px; right: 12px; display: flex; align-items: center; gap: 9px; background: #392719ed; color: #f3ca8a; border: 1px solid #ab793b; border-radius: 4px; padding: 10px; font-size: 10px; text-align: left; }
+.cctv-incident strong { margin-left: auto; font-weight: 400; font-size: 10px; }
+.cctv-card > footer { display: flex; justify-content: space-between; align-items: center; padding: 9px 12px; margin: 0; border-top: 1px solid #28382d; font-size: 9px; color: #8ca894; }
+.cctv-card > footer span { display: flex; gap: 6px; align-items: center; }
+.cctv-card > footer time { color: #b7c9bd; }
+.cctv-wall-foot { display: flex; align-items: center; justify-content: space-between; padding: 0 16px 13px; gap: 10px; color: #748f7d; font-size: 9px; }
+.cctv-failure { margin: 12px 14px 0; color: #edc38c; font-size: 11px; }
+.cctv-focus { width: min(1200px, 94vw); max-width: 1200px; }
+.cctv-focus-description { color: #a7bbad; padding: 0 20px 14px; font-size: 12px; }
+.cctv-focus-video { width: 100%; aspect-ratio: 16 / 9; background: #050b07; }
+.cctv-wall:fullscreen { display: flex; flex-direction: column; width: 100vw; height: 100dvh; margin: 0; padding: 10px; border: 0; border-radius: 0; background: #0a120d; }
+.cctv-wall:fullscreen .cctv-grid { flex: 1; min-height: 0; grid-template-rows: repeat(2, minmax(0, 1fr)); }
+.cctv-wall:fullscreen .cctv-video { flex: 1; aspect-ratio: auto; }
+.cctv-wall:fullscreen .cctv-wall-foot { padding-top: 5px; }
+@media (min-width: 1600px) { .cctv-toolbar { padding: 20px; } .cctv-grid { gap: 18px; padding: 18px; } }
+@media (max-width: 1100px) { .cctv-toolbar { align-items: flex-start; } .cctv-controls { max-width: 330px; } .cctv-wall-foot { flex-wrap: wrap; } .cctv-card > footer { font-size: 8px; gap: 5px; } }
+@media (max-width: 700px) { .cctv-wall { height: auto; min-height: 0; } .cctv-toolbar { flex-wrap: wrap; } .cctv-controls { justify-content: flex-start; max-width: none; } .cctv-grid { flex: none; grid-template-rows: auto; grid-template-columns: minmax(0, 1fr); gap: 12px; padding: 10px; } .cctv-video { flex: none; aspect-ratio: 16 / 9; } .cctv-wall:fullscreen { overflow: auto; } .cctv-wall:fullscreen .cctv-grid { flex: none; grid-template-rows: auto; } .cctv-wall:fullscreen .cctv-video { flex: auto; aspect-ratio: 16 / 9; } }

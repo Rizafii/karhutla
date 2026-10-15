@@ -45,6 +45,8 @@ import {
   AlertCircle,
 } from "lucide-react";
 import { Button } from "./ui/button";
+import { CameraStream as Stream } from "./camera-stream";
+import { CCTVWall } from "./cctv-wall";
 import { API, WS, request, label, time } from "@/lib/api";
 import type {
   Bootstrap,
@@ -63,13 +65,13 @@ const Map = dynamic(() => import("./monitoring-map"), {
   ssr: false,
   loading: () => (
     <div className="map-loading">
-      <LoaderCircle className="spin" /> Menyiapkan peta lokal…
+      <LoaderCircle className="spin" /> Menyiapkan peta online…
     </div>
   ),
 });
 const navigation = [
   { id: "overview", name: "Command Center", icon: LayoutDashboard },
-  { id: "cameras", name: "Jaringan Kamera", icon: Video },
+  { id: "cameras", name: "Pemantauan CCTV", icon: Video },
   { id: "incidents", name: "Insiden", icon: TriangleAlert },
   { id: "response", name: "Operasi Respons", icon: Shield },
   { id: "missions", name: "Misi Drone", icon: Plane },
@@ -123,63 +125,6 @@ function Provenance({ incident }: { incident: Incident }) {
         <>SIMULASI MANUAL</>
       )}
     </span>
-  );
-}
-function Stream({
-  camera,
-  annotated = false,
-}: {
-  camera: Camera;
-  annotated?: boolean;
-}) {
-  const [failed, setFailed] = useState(false),
-    [retry, setRetry] = useState(0);
-  useEffect(() => {
-    setFailed(false);
-    setRetry((n) => n + 1);
-  }, [camera.connection_status, camera.ai_status, annotated]);
-  useEffect(() => {
-    if (
-      !failed ||
-      camera.connection_status !== "connected" ||
-      (annotated && camera.ai_status !== "ready")
-    )
-      return;
-    const timer = setTimeout(() => {
-      setFailed(false);
-      setRetry((n) => n + 1);
-    }, 2500);
-    return () => clearTimeout(timer);
-  }, [failed, camera.connection_status, camera.ai_status, annotated]);
-  if (
-    camera.connection_status === "unavailable" ||
-    camera.connection_status === "reconnecting" ||
-    failed
-  )
-    return (
-      <div className="video-empty">
-        <WifiOff size={24} />
-        <span>Video belum tersedia</span>
-        <small>{camera.error || "Periksa sumber kamera"}</small>
-        {failed && (
-          <button
-            onClick={() => {
-              setFailed(false);
-              setRetry((n) => n + 1);
-            }}
-          >
-            Coba kembali
-          </button>
-        )}
-      </div>
-    );
-  return (
-    <img
-      className="camera-stream"
-      src={`${API}/api/cameras/${camera.id}/stream.mjpg?annotated=${annotated}&v=${retry}`}
-      alt={`Preview ${camera.id}${annotated ? " dengan hasil inference" : ""}`}
-      onError={() => setFailed(true)}
-    />
   );
 }
 function Modal({
@@ -245,7 +190,6 @@ function Dashboard() {
       action: () => Promise<void>;
     } | null>(null);
   const [demoOpen, setDemoOpen] = useState(true),
-    [online, setOnline] = useState(false),
     [notifications, setNotifications] = useState(false),
     [cameraEditor, setCameraEditor] = useState<Camera | null>(null),
     [now, setNow] = useState("");
@@ -369,7 +313,7 @@ function Dashboard() {
     workspace.setPlacing(false);
   }
   return (
-    <div className="app-shell">
+    <div className={`app-shell ${workspace.view === "cameras" ? "cctv-mode" : ""}`}>
       <aside className="sidebar">
         <div className="logo">
           <div className="brand-mark">
@@ -543,6 +487,13 @@ function Dashboard() {
             </button>
           </div>
         )}
+        {workspace.view === "cameras" ? (
+          <CCTVWall data={data} busy={busy}
+            onStart={() => safely("/api/demo/scenarios/forest-sector-b/start", { mode: "ai" })}
+            onPause={() => safely("/api/demo/control", { paused: !data.demo.paused })}
+            onMap={() => workspace.setView("overview")}
+            onIncident={(id) => { workspace.setView("incidents"); workspace.selectIncident(id); }} />
+        ) : (<>
         <div className="workspace">
           <div className="map-area">
             <div className="map-toolbar">
@@ -551,13 +502,7 @@ function Dashboard() {
                 <span className="subtle">/ Forest Sector B</span>
               </div>
               <div>
-                <button
-                  onClick={() => setOnline((v) => !v)}
-                  className="map-tool"
-                >
-                  <Layers size={14} />
-                  {online ? "Basemap online" : "GeoJSON lokal"}
-                </button>
+                <span className="map-tool"><Layers size={14} /> Basemap online · OpenStreetMap</span>
                 <span className="map-tool">
                   <Radio size={13} />
                   {data.demo.speed}× simulasi
@@ -568,13 +513,6 @@ function Dashboard() {
             <Map
               data={data}
               onLocation={place}
-              online={online}
-              onTileError={() => {
-                setOnline(false);
-                setNotice(
-                  "Basemap online gagal dimuat · GeoJSON lokal tetap aktif",
-                );
-              }}
             />
             <div className="sector-label sector-north">
               SEKTOR B <small>AREA PEMANTAUAN DEMO</small>
@@ -583,7 +521,7 @@ function Dashboard() {
             <div className="map-caption">
               <MapPin size={12} /> Geometri dan koordinat demonstrasi · bukan
               lokasi kebakaran terukur
-              {online && <span> · © OpenStreetMap contributors</span>}
+              <span> · © OpenStreetMap contributors</span>
             </div>
             <div className="map-legend">
               <span>
@@ -1098,6 +1036,7 @@ function Dashboard() {
             <Timeline events={data.activities.slice(0, 3)} />
           </section>
         </div>
+        </>)}
         <footer>
           <span>
             <i /> KARHUTLA.AI · SUSTAINABILITY HACKATHON MVP
@@ -1182,7 +1121,7 @@ function CameraNetworkPanel({ data }: { data: Bootstrap }) {
     <div className="detail-body">
       <h2>Jaringan pemantauan</h2>
       <p className="help-text">
-        Tiga kamera virtual. Pilih kamera untuk melihat preview, sektor, dan
+        {data.cameras.length} kamera virtual. Pilih kamera untuk melihat preview, sektor, dan
         konfigurasi sumber.
       </p>
       {data.cameras.map((camera) => (
@@ -1276,7 +1215,7 @@ function CameraPanel({
       {camera.source_config.normal === "/videos/normal.mp4" && (
         <p className="footage-attribution">
           <a
-            href="https://zenodo.org/records/836749"
+            href="https://www.pexels.com/video/aerial-view-of-wildfire-with-heavy-smoke-31129956/"
             target="_blank"
             rel="noreferrer"
           >
@@ -1371,6 +1310,7 @@ function IncidentPanel({
   const canDispatch = ["confirmed", "dispatched", "in_progress"].includes(
     incident.status,
   );
+  const automaticDescription = `Persetujuan ini mengizinkan drone virtual terbang ke titik perkiraan, memindai area${type === "suppression_simulation" ? ", lalu melepas payload air virtual" : ""}, dan pulang otomatis. Lokasi serta pelepasan payload tetap simulasi; video helikopter adalah footage referensi.`;
   return (
     <div className="detail-body">
       <div className="detail-kicker">{incident.id}</div>
@@ -1414,16 +1354,21 @@ function IncidentPanel({
       />
       {incident.status === "pending_review" ? (
         <>
+        <label className="field-label" htmlFor="automatic-mission-type">Respons drone otomatis</label>
+        <select id="automatic-mission-type" value={type} onChange={event => setType(event.target.value)}>
+          <option value="suppression_simulation">Pemindaian + pelepasan air virtual</option>
+          <option value="reconnaissance">Pemindaian saja</option>
+        </select>
         <Button
           className="full-width auto-response-button"
           disabled={busy || drone?.status !== "available"}
           onClick={() => ask(
             "Verifikasi & izinkan drone otomatis?",
-            "Dengan persetujuan ini, insiden dikonfirmasi dan drone virtual langsung berangkat ke titik perkiraan, memindai area, lalu pulang otomatis. Tidak menunggu konfirmasi petugas damkar. Lokasi hasil pemindaian tetap simulasi.",
-            `/api/incidents/${incident.id}/respond`, { notes, mission_type: "reconnaissance" },
+            automaticDescription,
+            `/api/incidents/${incident.id}/respond`, { notes, mission_type: type },
           )}
         ><Plane size={15} /> Verifikasi & kirim drone otomatis</Button>
-        <p className="help-text">Persetujuan operator mencakup launch dan pemindaian virtual. Alarm tidak otomatis mengirim drone.</p>
+        <p className="help-text">Respons mengikuti pilihan di atas dan dimulai setelah persetujuan operator.</p>
         <div className="action-pair">
           <Button
             disabled={busy}
@@ -1564,7 +1509,7 @@ function IncidentPanel({
       {canDispatch && drone?.status === "available" && !mission && <Button
         className="full-width auto-response-button"
         disabled={busy}
-        onClick={() => ask("Izinkan drone otomatis?", "Drone virtual akan terbang, memindai, lalu pulang otomatis tanpa menunggu regu damkar.", `/api/incidents/${incident.id}/respond`, { notes, mission_type: "reconnaissance" })}
+        onClick={() => ask("Izinkan drone otomatis?", automaticDescription, `/api/incidents/${incident.id}/respond`, { notes, mission_type: type })}
       ><Plane size={14} /> Kirim drone otomatis</Button>}
       {mission ? (
         <MissionPanel

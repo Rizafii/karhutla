@@ -20,6 +20,7 @@ from .domain import ACTIVE_INCIDENTS, FLYING
 from .simulator import simulator
 from .responses import BootstrapResponse, CameraResponse, IncidentResponse, IncidentDetailsResponse, DetectionResponse, DroneResponse, MissionResponse, UnitResponse, DispatchResponse, ReportResponse, EventResponse, DemoResponse
 
+FOOTAGE_DIR = Path("/videos")
 clients: set[WebSocket] = set()
 logger = logging.getLogger(__name__)
 
@@ -172,10 +173,11 @@ def detections(id: str):
 
 @app.get("/api/cameras/{id}/stream.mjpg")
 async def stream(id: str, annotated: bool = False):
-    if id not in ("CAM-001", "CAM-002", "CAM-003"):
-        raise HTTPException(404, "Kamera tidak ditemukan")
-    path = settings.data_dir / "frames" / f"{id}{'-ai' if annotated else ''}.jpg"
     metadata = await asyncio.to_thread(camera, id)
+    root = (settings.data_dir / "frames").resolve()
+    path = (root / f"{id}{'-ai' if annotated else ''}.jpg").resolve()
+    if not path.is_relative_to(root):
+        raise HTTPException(404, "Kamera tidak ditemukan")
     if metadata["connection_status"] not in ("connected", "paused"):
         raise HTTPException(503, "Capture belum terhubung; frame lama tidak disajikan")
     if not path.exists():
@@ -392,6 +394,16 @@ def release(id: str, payload: Payload):
 def activities():
     with Session() as session:
         return [envelope(a) for a in session.scalars(select(Activity).where(Activity.type.notin_(["drone.telemetry", "dispatch.telemetry"])).order_by(Activity.sequence.desc()).limit(300))]
+
+
+@app.get("/api/footage/{clip}")
+def drone_footage(clip: str):
+    if clip not in {"drone-approach", "drone-fire", "payload-drop", "forest"}:
+        raise HTTPException(404, "Footage tidak ditemukan")
+    path = FOOTAGE_DIR / f"{clip}.mp4"
+    if not path.is_file():
+        raise HTTPException(404, "Footage belum disiapkan. Jalankan persiapan aset.")
+    return FileResponse(path, media_type="video/mp4", headers={"Cache-Control": "public, max-age=3600"})
 
 
 @app.get("/api/demo/scenarios", dependencies=[Depends(demo_only)])

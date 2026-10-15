@@ -14,7 +14,7 @@ def adapt_results(result, names):
 
 
 class Detector:
-    def __init__(self, weights, device="cpu", threshold=.6):
+    def __init__(self, weights, device="cpu", threshold=.6, image_size=416):
         path = Path(weights)
         if not path.is_file():
             raise ValueError(f"Weights smoke/fire tidak ditemukan: {path}. Unduh saat persiapan; tidak ada download otomatis.")
@@ -24,10 +24,11 @@ class Detector:
         if not {"smoke", "fire"}.issubset(set(names.values())) or self.model.task != "detect":
             raise ValueError(f"Model tidak kompatibel: harus object detection dengan kelas smoke dan fire; ditemukan {names}")
         self.names, self.device, self.threshold = names, device, threshold
+        self.image_size = image_size
         self.version = f"{path.name}:sha256:{hashlib.sha256(path.read_bytes()).hexdigest()}"
         import torch
         torch.set_num_threads(2)
 
     def infer(self, frame):
-        result = self.model.predict(frame, device=self.device, conf=self.threshold, imgsz=640, verbose=False)[0]
+        result = self.model.predict(frame, device=self.device, conf=self.threshold, imgsz=self.image_size, verbose=False)[0]
         return adapt_results(result, self.names)

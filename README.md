@@ -4,7 +4,7 @@ Command center untuk deteksi dini smoke/fire, verifikasi operator, dan koordinas
 
 ## Menjalankan di Windows
 
-Prasyarat: Docker Desktop aktif dengan Linux containers, PowerShell, koneksi internet untuk **persiapan pertama**, dan ruang disk untuk image CPU PyTorch serta aset video. Tidak perlu memasang Python, PostgreSQL, atau Node secara native.
+Prasyarat: Docker Desktop aktif dengan Linux containers, PowerShell, koneksi internet untuk persiapan dan basemap online, dan ruang disk untuk image CPU PyTorch serta aset video. Tidak perlu memasang Python, PostgreSQL, atau Node secara native.
 
 Dari direktori proyek:
 
@@ -12,7 +12,7 @@ Dari direktori proyek:
 powershell -ExecutionPolicy Bypass -File scripts/setup.ps1
 ```
 
-Script membuat `.env` bila belum ada dengan service token acak, membangun empat service, mengunduh model dan footage publik, menyiapkan MP4, menjalankan migrasi/seed, lalu menunggu health check. Unduhan footage sekitar 198 MB; model sekitar 44 MB. Proses pertama dapat memakan beberapa menit. Unduhan menggunakan resume dan checksum.
+Script membuat `.env` bila belum ada dengan service token acak, membangun empat service, mengunduh model dan footage publik, menyiapkan MP4, menjalankan migrasi/seed, lalu menunggu health check. Unduhan footage sekitar 29 MB; model sekitar 44 MB. Proses pertama dapat memakan beberapa menit. Unduhan menggunakan resume dan checksum.
 
 Buka **http://localhost:3000**. OpenAPI: **http://localhost:8000/docs**. PostgreSQL dan worker tidak memublikasikan port. Frontend/backend hanya terikat ke loopback.
 
@@ -20,13 +20,13 @@ Pada halaman awal, pilih **Operator**, **Petugas Damkar**, atau **POV Drone**. P
 
 - **Operator:** tinjau evidence, klik **Verifikasi & kirim drone otomatis**, lalu setujui dialog. Satu persetujuan menjalankan verifikasi dan launch virtual; drone memindai lalu pulang tanpa menunggu petugas damkar. Assignment regu tetap dapat dilakukan terpisah.
 - **Petugas Damkar:** pilih regu, terima penugasan dari operator, perbarui status berangkat/tiba/selesai.
-- **POV Drone:** visual hutan prosedural mengikuti telemetri backend. Kamera virtual menghadap ke bawah saat memindai. POV dan pemindaian lokasi adalah simulasi, bukan feed kamera udara nyata.
+- **POV Drone:** footage asli hutan, pendekatan ke area asap, dan kebakaran diputar ulang sesuai tahap misi. Telemetri serta pemindaian lokasi tetap simulasi.
 
 Kandidat baru memicu alarm visual. **Suara mati secara default** dan hanya aktif setelah tombol aktivasi serta konfirmasi pengguna. Suara alarm belum diuji/dibunyikan atas permintaan pengguna. Deteksi tidak otomatis mengizinkan launch; persetujuan operator tetap wajib.
 
 Titik awal dihitung dari arah kamera dan jarak asumsi (60% jangkauan), dengan lingkaran ketidakpastian asumsi. Bbox menyesuaikan arah bila lebar frame tersedia. Drone virtual memperbarui titik melalui skenario simulasi berlabel; ini belum merupakan pengukuran GPS atau peningkatan akurasi yang divalidasi. Pilihan lokasi manual operator tidak ditimpa.
 
-Untuk menjalankan kembali setelah persiapan, termasuk tanpa internet:
+Untuk menjalankan kembali setelah persiapan (basemap selalu memerlukan internet):
 
 ```powershell
 docker compose up -d --wait
@@ -66,7 +66,7 @@ Kamera akan menyatakan video tidak tersedia bila footage belum ada. Worker menya
 
 ## Yang berfungsi
 
-- Dashboard gelap berbasis MapLibre dengan tiga kamera, sektor FOV, insiden, tim, drone, dan rute. GeoJSON lokal menjadi default; basemap OpenStreetMap opsional.
+- Dashboard gelap berbasis MapLibre dengan empat kamera, sektor FOV, insiden, tim, drone, dan rute. Basemap OpenStreetMap online selalu aktif pada ketiga role. GeoJSON hanya untuk overlay operasional; kegagalan tile menampilkan pesan dan tombol coba kembali.
 - Konfigurasi MP4/RTSP/webcam, preview MJPEG, frame AI beranotasi, reconnect capture, temporal validation, snapshot evidence, dan deduplikasi kandidat.
 - Lifecycle insiden, koordinat perkiraan dari operator, dispatch regu, serta aktivitas tersimpan.
 - Proposal, approval, launch, movement geodesik, reserve baterai, payload virtual, return, abort, dan completion mission.
@@ -75,19 +75,39 @@ Kamera akan menyatakan video tidak tersedia bila footage belum ada. Worker menya
 
 ## AI nyata dan simulasi
 
-**AI nyata:** Ultralytics YOLO melakukan inference pada frame video, memakai weights khusus `smoke` dan `fire`. Threshold 0,60 dan validator 4 dari 6 hasil merupakan default eksperimental. Kandidat menyimpan class, confidence, bbox, timestamp, evidence, serta fingerprint weights. Confidence bukan akurasi model.
+**AI nyata:** Ultralytics YOLO melakukan inference pada frame video, memakai weights khusus `smoke` dan `fire`, input 416 px (dapat diatur lewat `MODEL_IMAGE_SIZE`). Threshold 0,60 dan validator 4 hasil positif dalam jendela hingga 6 sampel merupakan default eksperimental. Alarm boleh muncul segera setelah hasil positif keempat, tanpa menunggu dua sampel tambahan. Batas jeda sampel mengikuti durasi inference dan jumlah kamera agar CPU lambat tidak terus menghapus riwayat deteksi. Kandidat menyimpan class, confidence, bbox, timestamp, evidence, serta fingerprint weights. Confidence bukan akurasi model.
 
 **Simulasi:** kamera dan koordinat pemantauan demonstrasi, gerakan tim, semua operasi drone, baterai, altitude, payload, serta kejadian manual. Video adalah footage asli yang diputar ulang; skenario menggabungkan klip normal dan smoke dengan edit yang didokumentasikan. Tombol **Mulai AI** hanya memulai playback, tidak membuat deteksi.
 
 Drone/tim tidak terhubung ke perangkat fisik. Pelepasan payload tidak menyelesaikan insiden. Operator harus menekan **Tandai teratasi** dan **Tutup insiden**.
 
+
+## Pemantauan CCTV dan pelepasan air
+
+Role Operator langsung membuka **Pemantauan CCTV**, grid 2x2 dengan CAM-001 sampai CAM-004. Tombol **Layar penuh** memperluas seluruh panel; tombol perbesar pada setiap kamera membuka preview besar. **Overlay AI** menampilkan hasil inference. **Peta operasi** kembali ke command center dengan basemap online.
+
+CAM-003 memakai `normal-east.mp4` ([James Cheney / Pexels](https://www.pexels.com/video/4124178/)); CAM-004 memakai `normal-south.mp4` ([Florian Hillmann / Pexels](https://www.pexels.com/video/12744994/)). Seed menambah CAM-004 tanpa reset database dan memperbarui konfigurasi bawaan lama; sumber kamera kustom dipertahankan.
+
+Saat meninjau insiden, **Pemindaian + pelepasan air virtual** dapat disetujui operator dalam dialog respons otomatis. Opsi **Pemindaian saja** tersedia. Pada status `suppression_simulation`, POV memainkan `payload-drop.mp4`: 12 detik awal [helikopter melepas air ke kebakaran hutan, 8K / Pexels](https://www.pexels.com/video/aerial-view-of-forest-fire-battled-by-helicopter-29703477/), sesuai Pexels License. Footage ini referensi visual; payload dan penerbangan tetap virtual. Pemutaran video tidak mengubah status misi atau menyatakan api padam.
+
+Untuk menyiapkan hanya tiga video tambahan setelah aset mentah diunduh:
+
+```powershell
+docker compose run --rm --no-deps -v "${PWD}/assets:/assets" vision python -m vision.prepare --extras-only
+```
+
 ## Model dan sumber video
 
 Model yang diuji: [odiug77/wildfire-smoke-fire](https://huggingface.co/odiug77/wildfire-smoke-fire), revision `9c81734ac75d14ba57c7834904891874074e451f`, kelas `smoke=0`, `fire=1`. Metadata publisher menyebut Apache-2.0. Library Ultralytics memiliki ketentuan lisensinya sendiri: [Ultralytics licensing](https://www.ultralytics.com/license).
 
-Footage yang disiapkan: [FIRESENSE database](https://zenodo.org/records/836749), Nikos Grammalidis, Kosmas Dimitropoulos, Enis Cetin; **CC BY 4.0**. `normal.mp4` berasal dari 16 detik pertama `neg/testneg04.810.avi`. `scenario.mp4` menggabungkan 8 detik klip tersebut dengan 30 detik pertama `pos/testpos04.820.avi`. Footage bukan rekaman Kalimantan. Metadata, perubahan, dan checksum tersimpan di `assets/manifest.json`.
+Footage baru berasal dari **8K / Pexels**, dengan [Pexels License](https://www.pexels.com/license/):
 
-Kandidat Boreal Forest Fire dari tahap riset tidak digunakan dalam paket demo ini; FIRESENSE menyediakan klip yang dapat diunduh dan telah diuji langsung.
+- [Hutan rapat dari drone](https://www.pexels.com/video/drone-flying-over-a-dense-forest-3859447/), untuk `normal.mp4` dan `forest.mp4`.
+- [Kebakaran di antara pepohonan](https://www.pexels.com/video/aerial-view-of-forest-fire-with-heavy-smoke-29702252/), untuk `wildfire.mp4` dan replay pendekatan `drone-approach.mp4`.
+- [Rekaman udara area berasap](https://www.pexels.com/video/aerial-view-of-wildfire-with-heavy-smoke-31129956/), untuk `camera-smoke.mp4` dan bagian asap `scenario.mp4` (crop atas 75% untuk berfokus pada asap di lereng hutan).
+- [Area kebakaran dari udara](https://www.pexels.com/video/dramatic-aerial-view-of-forest-wildfire-33643167/), untuk `drone-fire.mp4` dan bagian api `scenario.mp4`.
+
+`scenario.mp4` adalah edit 8 detik hutan normal lalu tujuh pengulangan klip asap (sekitar 94 detik) dan dua pengulangan klip api (sekitar 29 detik). Klip berasal dari lokasi berbeda dan bukan rekaman Kalimantan. Durasi positif memberi waktu untuk validasi enam sampel pada CPU bersama. Tidak ada label deteksi buatan. URL sumber dan SHA256 asli tersimpan di `assets/footage-sources.json`; hasil persiapan dan perubahan tersimpan di `assets/manifest.json`. Endpoint `/api/footage/{clip}` mendukung byte range untuk replay drone.
 
 Untuk weights sendiri: salin `.pt` ke `assets/models`, ubah `MODEL_PATH=/models/nama-model.pt`, lalu:
 
@@ -151,7 +171,7 @@ Lihat [ARCHITECTURE.md](ARCHITECTURE.md), [DEMO_GUIDE.md](DEMO_GUIDE.md), dan [T
 - Model belum divalidasi untuk deployment keselamatan atau kondisi Kalimantan. Sampling klip positif menunjukkan beberapa smoke tidak terdeteksi; tidak ada klaim akurasi.
 - Inference ditargetkan 1 fps/kamera, tetapi CPU sesi ini lebih lambat; UI menampilkan fps total yang diukur. Demo AI telah berjalan end-to-end dengan laju aktual tersebut.
 - Kabut/mist belum diuji memakai fixture yang telah direview. Smoke, visible flame, kondisi normal, dan awan telah diproses pada footage referensi; ini bukan benchmark terkontrol.
-- Pemeriksaan visual browser, layout 1440/1920/tablet, interpolasi tampak, dan kegagalan tiles lewat browser belum diverifikasi karena tidak ada browser terhubung. Production build dan HTTP telah diperiksa.
+- Browser Chromium pada viewport 1440 telah memverifikasi tile online, kegagalan/coba kembali tile, alarm AI nyata, replay pendekatan, replay api saat on-site, pause, dan replay hutan saat kembali. Layout 1920/tablet belum diuji.
 - RTSP/webcam didukung adapter tetapi belum diuji dengan hardware/stream nyata; webcam Docker Windows memerlukan konfigurasi device tambahan.
 - Satu backend process dan satu operator lokal. Tidak tersedia login multioperator, deployment internet, geolokasi api presisi, triangulasi, atau navigasi jalan.
 - Saat backend restart dengan drone airborne, simulasi dijeda dan dilanjutkan operator; waktu downtime tidak menjadi pergerakan drone.

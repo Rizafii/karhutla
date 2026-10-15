@@ -5,6 +5,7 @@ import maplibrePackage from "maplibre-gl/package.json";
 import type { GeoJSONSource } from "maplibre-gl";
 import "maplibre-gl/dist/maplibre-gl.css";
 import type { Bootstrap } from "@/lib/types";
+import { onlineBasemap } from "@/lib/basemap";
 import { useWorkspace } from "@/lib/store";
 
 const feature = (
@@ -40,152 +41,19 @@ function uncertaintyArea(lat: number, lon: number, radius: number) {
     return [lon + Math.sin(angle) * radius / (111320 * Math.cos(lat * Math.PI / 180)), lat + Math.cos(angle) * radius / 110540];
   }));
 }
-const trees = Array.from({ length: 32 }, (_, i) => {
-  const x = 113.866 + (i % 8) * 0.0085,
-    y = -2.33 + Math.floor(i / 8) * 0.014;
-  return polygon([
-    [x, y],
-    [x + 0.006, y + 0.001],
-    [x + 0.008, y + 0.01],
-    [x + 0.001, y + 0.012],
-    [x, y],
-  ]);
-});
-const localStyle: maplibregl.StyleSpecification = {
-  version: 8,
-  sources: {
-    forest: { type: "geojson", data: collection(trees) },
-    river: {
-      type: "geojson",
-      data: collection([
-        feature({
-          type: "LineString",
-          coordinates: [
-            [113.87, -2.33],
-            [113.881, -2.324],
-            [113.881, -2.314],
-            [113.891, -2.306],
-            [113.892, -2.296],
-            [113.905, -2.285],
-            [113.914, -2.272],
-            [113.926, -2.27],
-          ],
-        }),
-      ]),
-    },
-    boundary: {
-      type: "geojson",
-      data: collection([
-        polygon([
-          [113.872, -2.325],
-          [113.921, -2.325],
-          [113.921, -2.276],
-          [113.872, -2.276],
-          [113.872, -2.325],
-        ]),
-      ]),
-    },
-    paths: {
-      type: "geojson",
-      data: collection([
-        feature({
-          type: "LineString",
-          coordinates: [
-            [113.875, -2.311],
-            [113.882, -2.31],
-            [113.9, -2.31],
-            [113.909, -2.313],
-            [113.921, -2.307],
-          ],
-        }),
-        feature({
-          type: "LineString",
-          coordinates: [
-            [113.9, -2.31],
-            [113.905, -2.304],
-            [113.902, -2.295],
-            [113.908, -2.285],
-          ],
-        }),
-      ]),
-    },
-  },
-  layers: [
-    {
-      id: "background",
-      type: "background",
-      paint: { "background-color": "#14231f" },
-    },
-    {
-      id: "forest",
-      type: "fill",
-      source: "forest",
-      paint: { "fill-color": "#19352b", "fill-opacity": 0.58 },
-    },
-    {
-      id: "forest-lines",
-      type: "line",
-      source: "forest",
-      paint: {
-        "line-color": "#254036",
-        "line-width": 0.6,
-        "line-opacity": 0.65,
-      },
-    },
-    {
-      id: "river-outline",
-      type: "line",
-      source: "river",
-      paint: { "line-color": "#183d40", "line-width": 38 },
-    },
-    {
-      id: "river",
-      type: "line",
-      source: "river",
-      paint: { "line-color": "#245054", "line-width": 20 },
-    },
-    {
-      id: "paths",
-      type: "line",
-      source: "paths",
-      paint: {
-        "line-color": "#607160",
-        "line-width": 1.3,
-        "line-dasharray": [5, 3],
-        "line-opacity": 0.6,
-      },
-    },
-    {
-      id: "boundary",
-      type: "line",
-      source: "boundary",
-      paint: {
-        "line-color": "#7b8c78",
-        "line-width": 1,
-        "line-dasharray": [4, 4],
-        "line-opacity": 0.55,
-      },
-    },
-  ],
-};
-
 export default function MonitoringMap({
   data,
   onLocation,
-  online,
-  onTileError,
 }: {
   data: Bootstrap;
   onLocation: (lat: number, lon: number) => void;
-  online: boolean;
-  onTileError: () => void;
 }) {
   const container = useRef<HTMLDivElement>(null),
     map = useRef<maplibregl.Map | null>(null),
     markers = useRef<maplibregl.Marker[]>([]),
     droneMarkers = useRef<Record<string, maplibregl.Marker>>({});
-  const latest = useRef({ data, onLocation, online, onTileError });
-  latest.current = { data, onLocation, online, onTileError };
+  const latest = useRef({ data, onLocation });
+  latest.current = { data, onLocation };
   const workspace = useWorkspace();
   const [mapError, setMapError] = useState<string | null>(null);
   const placing = useRef(workspace.placing);
@@ -204,13 +72,13 @@ export default function MonitoringMap({
     try {
       m = new maplibregl.Map({
         container: container.current,
-        style: localStyle,
+        style: onlineBasemap,
         center: [113.9, -2.301],
         zoom: 13.7,
         minZoom: 10,
         maxZoom: 18,
         pitch: 0,
-        attributionControl: false,
+        attributionControl: { compact: true },
       });
     } catch (error) {
       setMapError(error instanceof Error ? error.message : "WebGL tidak tersedia");
@@ -230,12 +98,11 @@ export default function MonitoringMap({
         latest.current.onLocation(event.lngLat.lat, event.lngLat.lng);
     });
     m.on("error", (event) => {
-      if (latest.current.online && "sourceId" in event && event.sourceId === "osm")
-        latest.current.onTileError();
-      else setMapError(event.error.message);
+      setMapError("sourceId" in event && event.sourceId === "osm"
+        ? "Basemap online gagal dimuat. Periksa koneksi internet lalu coba kembali."
+        : event.error.message);
     });
     m.on("load", () => {
-      setMapError(null);
       m.addSource("coverage", { type: "geojson", data: collection([]) });
       m.addLayer({
         id: "coverage-fill",
@@ -441,35 +308,6 @@ export default function MonitoringMap({
         ? "crosshair"
         : "";
   }, [workspace.placing]);
-  useEffect(() => {
-    const m = map.current;
-    if (!m) return;
-    const change = () => {
-      if (online) {
-        if (!m.getSource("osm")) {
-          m.addSource("osm", {
-            type: "raster",
-            tiles: ["https://tile.openstreetmap.org/{z}/{x}/{y}.png"],
-            tileSize: 256,
-            attribution: "© OpenStreetMap contributors",
-          });
-          m.addLayer(
-            {
-              id: "osm",
-              type: "raster",
-              source: "osm",
-              paint: { "raster-opacity": 0.45, "raster-saturation": -0.75 },
-            },
-            "forest",
-          );
-        }
-        m.setLayoutProperty("osm", "visibility", "visible");
-      } else if (m.getLayer("osm"))
-        m.setLayoutProperty("osm", "visibility", "none");
-    };
-    if (m.isStyleLoaded()) change();
-    else m.once("load", change);
-  }, [online]);
   return (
     <>
       <div
@@ -481,7 +319,7 @@ export default function MonitoringMap({
         <div className="map-error" role="alert">
           <strong>Peta gagal dimuat</strong>
           <span>{mapError}</span>
-          <span>Pastikan WebGL aktif di browser, lalu muat ulang halaman.</span>
+          <button onClick={() => { setMapError(null); (map.current?.getSource("osm") as maplibregl.RasterTileSource | undefined)?.setTiles(onlineBasemap.sources.osm.type === "raster" ? onlineBasemap.sources.osm.tiles! : []); }}>Coba kembali</button>
         </div>
       )}
     </>

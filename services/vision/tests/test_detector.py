@@ -1,7 +1,7 @@
 from types import SimpleNamespace
 import pytest
 from vision.detector import adapt_results, Detector
-from vision.temporal import TemporalValidator
+from vision.temporal import TemporalValidator, inference_max_gap
 
 
 def detection(category='smoke',confidence=.8):
@@ -19,10 +19,10 @@ def test_adapter_missing_boxes_and_weights():
     with pytest.raises(ValueError,match='tidak ditemukan'):Detector('/no/such/weights.pt')
 
 
-def test_requires_full_window_four_positives():
+def test_alerts_as_soon_as_four_real_positives_are_available():
     validator=TemporalValidator()
-    for i in range(5):assert validator.add([detection()] if i<4 else [],i)==[]
-    result=validator.add([detection()],5)
+    for i in range(4):assert validator.add([detection()] if i<3 else [],i)==[]
+    result=validator.add([detection()],4)
     assert len(result)==1 and result[0]['category']=='smoke'
 
 
@@ -40,15 +40,30 @@ def test_cooldown_and_reset():
     validator=TemporalValidator()
     alerts=[]
     for i in range(70):alerts.extend((i,d) for d in validator.add([detection()],i))
-    assert [i for i,_ in alerts]==[5,65]
+    assert [i for i,_ in alerts]==[3,63]
     validator.reset()
     assert validator.add([detection()],70)==[]
 
 
 def test_gap_clears_window():
     validator=TemporalValidator()
-    for i in range(5):validator.add([detection()],i)
+    for i in range(3):validator.add([detection()],i)
     assert validator.add([detection()],30)==[]
+
+
+def test_shared_cpu_does_not_expire_every_smoke_sample():
+    # Three cameras at ~3 seconds per prediction used to reset the 5s window
+    # on every sample, permanently suppressing incident/alarm creation.
+    validator = TemporalValidator(max_gap=inference_max_gap(3, 3, 1))
+    for second in [0, 9, 18]:
+        assert validator.add([detection()], second) == []
+    assert validator.add([detection()], 27)[0]['category'] == 'smoke'
+    assert validator.add([detection()], 100) == []
+
+
+def test_fast_inference_keeps_short_expiry():
+    assert inference_max_gap(.1, 1, 1) == 5
+    assert inference_max_gap(3, 3, 1) == 36
 
 
 def test_invalid_configuration():
@@ -65,8 +80,8 @@ def test_rejects_generic_coco_classes(monkeypatch, tmp_path):
 
 def test_video_loop_keeps_detection_cooldown():
     validator=TemporalValidator()
-    for second in range(5):assert validator.add([detection()],second)==[]
-    assert len(validator.add([detection()],5))==1
+    for second in range(3):assert validator.add([detection()],second)==[]
+    assert len(validator.add([detection()],3))==1
     validator.reset(clear_cooldown=False)
-    for second in range(6,65):assert validator.add([detection()],second)==[]
-    assert len(validator.add([detection()],65))==1
+    for second in range(4,63):assert validator.add([detection()],second)==[]
+    assert len(validator.add([detection()],63))==1

@@ -12,7 +12,7 @@ type State = {
   setReport: (id: string | null) => void;
 };
 export const useWorkspace = create<State>((set) => ({
-  view: "overview",
+  view: "cameras",
   cameraId: null,
   incidentId: null,
   placing: false,

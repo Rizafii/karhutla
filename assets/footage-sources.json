@@ -1,0 +1,79 @@
+[
+  {
+    "id": 3859447,
+    "name": "forest",
+    "source": "https://www.pexels.com/video/3859447/",
+    "url": "https://videos.pexels.com/video-files/3859447/3859447-sd_960_540_24fps.mp4",
+    "path": "assets/source/pexels/forest.mp4",
+    "authors": "8K / Pexels",
+    "license": "Pexels License",
+    "license_url": "https://www.pexels.com/license/",
+    "sha256": "70fd4ecf5deffaa8ea32db4ce07bc44f3955b9153fd8a759c5dfa6f4fbd7183e"
+  },
+  {
+    "id": 29702252,
+    "name": "wildfire",
+    "source": "https://www.pexels.com/video/29702252/",
+    "url": "https://videos.pexels.com/video-files/29702252/12772960_960_540_24fps.mp4",
+    "path": "assets/source/pexels/wildfire.mp4",
+    "authors": "8K / Pexels",
+    "license": "Pexels License",
+    "license_url": "https://www.pexels.com/license/",
+    "sha256": "616897af091fb97f55ef1733fcc8616b7c3ac2b5e485771a1b00a73fef24f497"
+  },
+  {
+    "id": 31129956,
+    "name": "drone-approach",
+    "source": "https://www.pexels.com/video/31129956/",
+    "url": "https://videos.pexels.com/video-files/31129956/13301502_960_540_24fps.mp4",
+    "path": "assets/source/pexels/drone-approach.mp4",
+    "authors": "8K / Pexels",
+    "license": "Pexels License",
+    "license_url": "https://www.pexels.com/license/",
+    "sha256": "0c3b2b9866db38c7cdec53e5989b19e77cef7e10789967ca51eb5abc57e00af8"
+  },
+  {
+    "id": 33643167,
+    "name": "drone-fire",
+    "source": "https://www.pexels.com/video/33643167/",
+    "url": "https://videos.pexels.com/video-files/33643167/14296630_960_540_24fps.mp4",
+    "path": "assets/source/pexels/drone-fire.mp4",
+    "authors": "8K / Pexels",
+    "license": "Pexels License",
+    "license_url": "https://www.pexels.com/license/",
+    "sha256": "9d0bb386336bdc6f7a9afa13526db8102399d3d20972a21a554ae5bcb8c7320a"
+  },
+  {
+    "id": 29703477,
+    "name": "payload-drop",
+    "source": "https://www.pexels.com/video/aerial-view-of-forest-fire-battled-by-helicopter-29703477/",
+    "url": "https://videos.pexels.com/video-files/29703477/12773202_960_540_24fps.mp4",
+    "path": "assets/source/pexels/payload-drop.mp4",
+    "authors": "8K / Pexels",
+    "license": "Pexels License",
+    "license_url": "https://www.pexels.com/license/",
+    "sha256": "dae7e473719e71f319ad52cf0254b44a8fd1fee11769d6fd9798acf9e4d1a018"
+  },
+  {
+    "id": 4124178,
+    "name": "forest-east",
+    "source": "https://www.pexels.com/video/4124178/",
+    "url": "https://videos.pexels.com/video-files/4124178/4124178-sd_960_540_24fps.mp4",
+    "path": "assets/source/pexels/forest-east.mp4",
+    "authors": "James Cheney / Pexels",
+    "license": "Pexels License",
+    "license_url": "https://www.pexels.com/license/",
+    "sha256": "fa25a488c3d66e2d63965f97658125aae3679a5de7175a8a82271fbd660ee025"
+  },
+  {
+    "id": 12744994,
+    "name": "forest-south",
+    "source": "https://www.pexels.com/video/12744994/",
+    "url": "https://videos.pexels.com/video-files/12744994/12744994-sd_960_540_30fps.mp4",
+    "path": "assets/source/pexels/forest-south.mp4",
+    "authors": "Florian Hillmann / Pexels",
+    "license": "Pexels License",
+    "license_url": "https://www.pexels.com/license/",
+    "sha256": "bc3bf43b007e9c3d83f872f2cb28f997aa3f6c8e5799e57bc42c20c284427f8c"
+  }
+]

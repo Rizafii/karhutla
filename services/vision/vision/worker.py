@@ -10,7 +10,7 @@ from uuid import uuid4
 import cv2
 import httpx
 from .detector import Detector
-from .temporal import TemporalValidator
+from .temporal import TemporalValidator, inference_max_gap
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
 logger = logging.getLogger(__name__)
@@ -99,7 +99,7 @@ def main():
     cv2.setNumThreads(1)
     detector, model_error = None, None
     try:
-        detector = Detector(os.getenv("MODEL_PATH", "/models/wildfire-smoke-fire.pt"), os.getenv("MODEL_DEVICE", "cpu"), THRESHOLD)
+        detector = Detector(os.getenv("MODEL_PATH", "/models/wildfire-smoke-fire.pt"), os.getenv("MODEL_DEVICE", "cpu"), THRESHOLD, int(os.getenv("MODEL_IMAGE_SIZE", "416")))
         logger.info("Model loaded: %s", detector.version)
     except Exception as error:
         model_error = str(error)
@@ -126,16 +126,24 @@ def main():
                         source = src.get("url", "")
                     elif camera["source_type"] == "webcam":
                         source = int(src.get("index", 0))
+                    current = readers.get(camera["id"])
+                    if current and (current.source != (source if source is not None else "") or current.camera["source_type"] != camera["source_type"]):
+                        current.close()
+                        del readers[camera["id"]]
                     if camera["id"] not in readers:
-                        readers[camera["id"]] = CameraReader(camera, source or "", epoch)
+                        readers[camera["id"]] = CameraReader(camera, source if source is not None else "", epoch)
                     readers[camera["id"]].paused = demo["paused"]
                 last_config = time.monotonic()
             infer_enabled = not demo.get("paused") and not (demo.get("status") == "running" and demo.get("mode") == "manual_simulation")
-            for id, reader in readers.items():
+            # One prediction per round, oldest camera first. Publish detections
+            # and heartbeat before spending CPU on the next camera.
+            for id, reader in sorted(readers.items(), key=lambda item: item[1].last_inference):
                 if detector and infer_enabled and reader.frame is not None and reader.serial != reader.processed_serial and time.monotonic() - reader.last_inference >= 1 / INFERENCE_FPS:
                     reader.ai_status = "processing"
                     serial, frame, timestamp = reader.serial, reader.frame.copy(), reader.frame_at
+                    inference_started = time.monotonic()
                     detections = detector.infer(frame)
+                    reader.validator.max_gap = inference_max_gap(time.monotonic() - inference_started, len(readers), INFERENCE_FPS)
                     reader.last_inference, reader.processed_serial = time.monotonic(), serial
                     reader.inference_at = datetime.now(timezone.utc).isoformat()
                     total += 1
@@ -155,7 +163,9 @@ def main():
                         pending.append({"id": detection_id, "camera_id": id, **candidate, "captured_at": timestamp,
                                         "evidence_path": path, "model_version": detector.version, "demo_epoch": reader.epoch,
                                         "frame_width": frame.shape[1]})
+                        logger.info("Validated %s from %s (confidence %.3f)", candidate["category"], id, candidate["confidence"])
                     reader.ai_status = "ready"
+                    break
                 elif demo.get("paused"):
                     reader.ai_status = "paused"
                 elif not detector or not infer_enabled:

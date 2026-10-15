@@ -14,14 +14,14 @@ type Role = "operator" | "firefighter" | "drone";
 const roles = [
   { id: "operator" as const, number: "01", icon: Radio, name: "Operator", sub: "COMMAND CENTER", description: "Pantau kamera, verifikasi alarm, dan izinkan respons drone dalam satu tindakan.", tags: "Deteksi AI / GIS / Dispatch" },
   { id: "firefighter" as const, number: "02", icon: Shield, name: "Petugas Damkar", sub: "FIELD RESPONSE", description: "Terima penugasan regu, lihat koordinat perkiraan, dan laporkan progres penanganan.", tags: "Penugasan / Navigasi virtual / Status regu" },
-  { id: "drone" as const, number: "03", icon: Plane, name: "POV Drone", sub: "AUTONOMOUS RECON", description: "Ikuti penerbangan virtual dari sudut pandang drone. Pemindaian dan kepulangan berjalan otomatis.", tags: "POV sintetis / Telemetri / Pemindaian virtual" },
+  { id: "drone" as const, number: "03", icon: Plane, name: "POV Drone", sub: "AUTONOMOUS RECON", description: "Ikuti penerbangan virtual dari sudut pandang drone. Pemindaian dan kepulangan berjalan otomatis.", tags: "Footage drone / Telemetri / Pemindaian virtual" },
 ];
 
 export function RolePortal() {
   const [client] = useState(() => new QueryClient({ defaultOptions: { queries: { retry: 1, refetchOnWindowFocus: false } } }));
   const [role, setRole] = useState<Role | null>(null);
   function choose(next: Role) {
-    useWorkspace.setState({ view: "overview", cameraId: null, incidentId: null, placing: false, reportId: null });
+    useWorkspace.setState({ view: next === "operator" ? "cameras" : "overview", cameraId: null, incidentId: null, placing: false, reportId: null });
     setRole(next);
   }
   return <QueryClientProvider client={client}>
@@ -29,7 +29,7 @@ export function RolePortal() {
       <div className="role-session-bar">
         <button className="role-switch" onClick={() => setRole(null)}><ArrowLeft size={14} /> Ganti role</button>
         <span className="role-current">{roles.find(r => r.id === role)?.sub}</span>
-        <AlarmPanel onOpen={(id) => { choose("operator"); useWorkspace.getState().selectIncident(id); }} />
+        <AlarmPanel onOpen={(id) => { choose("operator"); useWorkspace.getState().setView("incidents"); useWorkspace.getState().selectIncident(id); }} />
       </div>
       {role === "operator" ? <CommandCenter /> : role === "firefighter" ? <FieldPanel /> : <DronePanel />}
     </div> : <main className="role-landing">
@@ -46,7 +46,7 @@ export function RolePortal() {
 }
 
 function AlarmPanel({ onOpen }: { onOpen: (id: string) => void }) {
-  const { data } = useQuery({ queryKey: ["bootstrap"], queryFn: () => request<Bootstrap>("/api/bootstrap"), refetchInterval: 10000 });
+  const { data } = useQuery({ queryKey: ["bootstrap"], queryFn: () => request<Bootstrap>("/api/bootstrap"), refetchInterval: 2000 });
   const [sound, setSound] = useState(false);
   const [acknowledged, setAcknowledged] = useState<string[]>([]);
   const audio = useRef<AudioContext | null>(null);
@@ -89,6 +89,6 @@ function AlarmPanel({ onOpen }: { onOpen: (id: string) => void }) {
   }
   return <>
     <button className={`alarm-sound ${sound ? "enabled" : ""}`} onClick={toggleSound} title={sound ? "Matikan suara alarm" : "Suara mati; klik untuk mengaktifkan dengan konfirmasi"}>{sound ? <Volume2 size={15} /> : <VolumeX size={15} />}<span>{sound ? "Suara aktif" : "Mode senyap"}</span></button>
-    {pending.length > 0 && <div className="role-alarm" role="status" aria-live="polite"><Bell size={19} /><div><strong>{pending.length} kandidat insiden perlu verifikasi</strong><span>{pending[0].camera_id} · {pending[0].provenance === "ai" ? "Deteksi AI nyata" : "Simulasi manual"} · {sound ? "Alarm suara aktif" : "Alarm visual · suara mati"}</span></div><Button size="sm" onClick={() => onOpen(pending[0].id)}>Buka insiden <ArrowUpRight size={13} /></Button><button className="alarm-ack" onClick={() => setAcknowledged(previous => [...previous, ...pending.map(i => i.id)])}><Check size={14} /> Akui alarm</button></div>}
+    {pending.length > 0 && <div className="role-alarm" role="alert" aria-live="assertive"><Bell size={19} /><div><strong>{pending[0].category === "smoke" ? "PERINGATAN ASAP TERDETEKSI" : "PERINGATAN API TERDETEKSI"} / {pending.length} insiden perlu verifikasi</strong><span>{pending[0].camera_id} · {pending[0].provenance === "ai" ? "Deteksi AI nyata" : "Simulasi manual"} · {sound ? "Alarm suara aktif" : "Alarm visual · suara mati"}</span></div><Button size="sm" onClick={() => onOpen(pending[0].id)}>Buka insiden <ArrowUpRight size={13} /></Button><button className="alarm-ack" onClick={() => setAcknowledged(previous => [...previous, ...pending.map(i => i.id)])}><Check size={14} /> Akui alarm</button></div>}
   </>;
 }

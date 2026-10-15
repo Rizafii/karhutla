@@ -8,10 +8,16 @@ def seed(session):
         ("CAM-001", "Forest West", -2.300, 113.889, 90),
         ("CAM-002", "Forest North", -2.289, 113.900, 180),
         ("CAM-003", "Forest East", -2.300, 113.911, 270),
+        ("CAM-004", "Forest South", -2.309, 113.900, 0),
     ]:
-        if not session.get(Camera, id):
+        legacy = {"normal": "/videos/normal.mp4", "scenario": "/videos/scenario.mp4"}
+        defaults = {**legacy, "normal": {"CAM-003": "/videos/normal-east.mp4", "CAM-004": "/videos/normal-south.mp4"}.get(id, legacy["normal"])}
+        camera = session.get(Camera, id)
+        if not camera:
             session.add(Camera(id=id, name=name, latitude=lat, longitude=lon, heading=heading,
-                               source_config={"normal": "/videos/normal.mp4", "scenario": "/videos/scenario.mp4"}))
+                               source_config=defaults))
+        elif camera.source_type == "mp4" and camera.source_config == legacy and defaults != legacy:
+            camera.source_config = defaults
     if not session.get(Drone, "DRONE-01"):
         session.add(Drone(id="DRONE-01", name="Wildfire Response UAV", latitude=-2.310, longitude=113.900,
                           home_latitude=-2.310, home_longitude=113.900))

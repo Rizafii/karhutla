@@ -64,3 +64,28 @@ Map repair follow-up on 14 October 2026:
 - Actual CPU inference was below the configured target of one result per second per camera; the dashboard reports measured total worker fps.
 - Reconnect/resync/deduplication have automated client tests, and live WebSocket incident/telemetry have server and end-to-end tests. A full browser reconnect journey remains unverified.
 - Real drone hardware is intentionally unsupported. Battery, payload, movement, and response-team travel are virtual.
+
+
+## Verifikasi perubahan basemap, footage, dan alarm - 15 Oktober 2026
+
+- Backend: 30 tes lulus, termasuk allowlist footage dan HTTP byte range 206 untuk seeking.
+- Vision: 12 tes lulus, termasuk CPU bersama yang sebelumnya selalu menghapus riwayat temporal, empat hasil positif tanpa menunggu sampel kelima/keenam, cooldown, dan pemisahan kategori.
+- Frontend: 10 tes lulus; TypeScript dan production build lulus.
+- Chromium 1440x1000: tile OpenStreetMap HTTP 200; tile yang sengaja diblokir menampilkan pesan dan pulih lewat Coba kembali tanpa basemap lokal. Tidak ada error JavaScript.
+- Replay drone: pendekatan 20,04 detik; on-site memakai footage api 14,64 detik dan benar-benar diputar; pause menghentikan video; returning memakai footage hutan. Tahap misi untuk tes UI diberikan lewat fixture browser tanpa meluncurkan misi backend.
+- Model asli dengan input 416: tiga sampel hutan normal tidak menghasilkan deteksi; tiga sampel kamera asap menghasilkan smoke (confidence sekitar 0,68 sampai 0,81); tiga sampel api menghasilkan fire. Ini pemeriksaan sampel, bukan benchmark akurasi.
+- Pipeline worker nyata menghasilkan insiden AI CAM-002 `INC-3761db2a6e2b` beserta JPEG evidence. Browser menampilkan PERINGATAN ASAP TERDETEKSI. Database demo tidak direset; alarm dibiarkan menunggu verifikasi operator.
+- Aset unduhan baru diverifikasi SHA256. Video berlabel replay referensi; koordinat, penerbangan, dan pemindaian tetap virtual. Audio tidak diaktifkan saat pengujian.
+
+
+## CCTV empat kamera dan footage payload - 16 Oktober 2026
+
+- Backend: 32 tes suite lulus, lalu empat tes stream khusus lulus setelah endpoint video dibuat mengikuti registry kamera. CAM-004 melayani stream raw dan AI; ID tidak terdaftar ditolak dan kamera terputus tidak menyajikan frame lama.
+- Frontend: 10 tes lulus, TypeScript serta production build lulus.
+- Browser Chromium: empat stream memiliki frame nyata; perbesar kamera, dialog dalam fullscreen, layar penuh 2x2, overlay AI, serta akses peta online berhasil tanpa error JavaScript.
+- Tahap on-site memainkan footage api. Saat status berubah menjadi suppression_simulation, browser memainkan footage helikopter melepas air (12 detik, muted, tidak loop). Pause menghentikan replay; returning beralih ke footage hutan.
+- Pilihan respons pemindaian + payload tampil pada detail insiden. Dialog menyebut izin pelepasan air virtual; request suppression_simulation baru dikirim setelah konfirmasi. Tes ini memakai fixture/intersepsi browser tanpa meluncurkan misi backend.
+- CAM-003 dan CAM-004 memakai footage hutan berbeda. Enam sampel video tambahan tidak menghasilkan deteksi smoke/fire. Seluruh sepuluh MP4 hasil persiapan sesuai SHA256 manifest.
+- Bukti lokal: data/cctv-four-cameras.png, data/cctv-fullscreen.png, data/helicopter-payload.png, dan data/cctv-payload-checks.json.
+
+Layout CCTV terakhir: keempat kartu berada dalam viewport 1440x1000 dan 1920x1080 tanpa perlu scroll untuk melihat kamera keempat. Viewport 390x844 memakai satu kolom tanpa overflow horizontal. Laporan pengukuran tersimpan di data/cctv-layout-checks.json.

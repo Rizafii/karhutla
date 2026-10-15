@@ -35,7 +35,8 @@ def mission_tick(client, seconds=1):
 
 def test_seed_and_bootstrap(client):
     data=client.get('/api/bootstrap').json()
-    assert len(data['cameras'])==3 and len(data['response_units'])==2 and len(data['drones'])==1
+    assert {camera['id'] for camera in data['cameras']} == {'CAM-001', 'CAM-002', 'CAM-003', 'CAM-004'}
+    assert len(data['response_units'])==2 and len(data['drones'])==1
     assert data['incidents']==[]
 
 

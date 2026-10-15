@@ -32,7 +32,7 @@ Target mission merupakan snapshot koordinat perkiraan. Saat ingest, sistem mengh
 
 Setiap pembukaan halaman utama meminta pilihan Operator, Petugas Damkar, atau POV Drone. Ini pemisahan UI untuk demo lokal, bukan role-based authentication. Semua panel memakai REST/cache TanStack Query dan event WebSocket yang sama. Panel damkar mengelola acceptance/progres regunya; POV hanya membaca telemetri dan tidak menjalankan state mission.
 
-POV memakai Canvas 2D untuk proyeksi perspektif hutan prosedural, asap sintetis, dan target virtual. Posisi/sudut pandang diinterpolasi dari telemetri backend; saat on-site kamera menghadap ke bawah. Gambar ini bukan feed kamera drone, bukan evidence AI, dan tidak dipakai menghitung lokasi. Scene tidak memajukan simulasi backend.
+POV memakai MP4 footage asli hutan/kebakaran dari Pexels. Tahap misi memilih footage pendekatan atau area target; kemajuan rute menyinkronkan posisi replay. Replay tidak menjadi evidence AI dan tidak menghitung koordinat. Telemetri, pemindaian, dan lokasi tetap simulasi backend.
 
 Alarm visual mengikuti kandidat pending dari cache REST/realtime, termasuk setelah reconnect. Suara **nonaktif secara default**; AudioContext hanya dibuat setelah klik aktivasi dan konfirmasi pengguna. Pengakuan alarm tidak memverifikasi insiden. Verifikasi/penolakan menghapus kondisi alarm kandidat tersebut. Refresh/ganti sesi kembali ke mode senyap. Tidak ada tombol test sound.
 
@@ -58,6 +58,9 @@ Frontend menunggu REST resync saat koneksi terbuka/reconnect, menahan event seme
 
 `DEMO_MODE=true` menyediakan controller. Start AI mengubah playback, tanpa menciptakan kandidat. Mode manual membutuhkan tindakan eksplisit terpisah dan provenance manual_simulation. Reset membersihkan insiden demo dan resource terkait; evidence yang direferensikan juga dibersihkan. Laporan dari run normal persisten sampai reset yang relevan.
 
-Map default hanya memakai GeoJSON lokal dan aset JS/CSS build. Basemap raster online opsional ditampilkan bersama atribusi; geometri operasional tetap ada bila raster gagal. Model/video disiapkan sekali dan tidak diunduh saat startup.
+Semua role memakai basemap OpenStreetMap online sejak inisialisasi, dengan atribusi. GeoJSON hanya menjadi overlay kamera, FOV, insiden, dan rute. Tile gagal menampilkan pesan/coba kembali tanpa fallback basemap lokal. Model/video disiapkan sekali dan tidak diunduh saat startup.
 
 Host/Origin dibatasi untuk aplikasi lokal; internal API memakai service token yang tidak dikirim ke browser. Ini local-demo isolation, bukan autentikasi deployment publik. Set `DEMO_MODE=false` untuk menonaktifkan tindakan demo; tetap gunakan binding localhost.
+
+
+Operator kini membuka wall CCTV 2x2 dengan empat kamera, preview besar, overlay AI, dialog perbesar, dan Fullscreen API. Peta operasi tetap memakai basemap online. Video payload dipilih hanya untuk status suppression_simulation; klip helikopter menampilkan pelepasan air dan tidak mengubah state backend. Pilihan respons otomatis menjelaskan serta meminta persetujuan untuk payload virtual. Seed menambah CAM-004 secara idempotent dan menjaga sumber kamera kustom.

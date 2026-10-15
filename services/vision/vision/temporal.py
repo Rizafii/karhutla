@@ -2,6 +2,11 @@ from collections import deque
 import time
 
 
+def inference_max_gap(inference_seconds, camera_count, target_fps):
+    """Allow four inference rounds on a shared CPU before expiring samples."""
+    return max(5, 4 * max(inference_seconds, 1 / target_fps) * max(1, camera_count))
+
+
 class TemporalValidator:
     """Experimental class-specific N-of-M filter. No model accuracy claims."""
     def __init__(self, window=6, positives=4, threshold=.6, cooldown=60, max_gap=5):
@@ -23,7 +28,9 @@ class TemporalValidator:
         self.last_sample = at
         valid = [d for d in detections if d["category"] in self.last_positive and d["confidence"] >= self.threshold]
         self.results.append({d["category"] for d in valid})
-        if len(self.results) < self.window:
+        # Four real positives already satisfy 4-of-6. Waiting for two more
+        # samples can miss a short smoke segment on a shared, slow CPU.
+        if len(self.results) < self.positives:
             return []
         candidates = []
         for category in self.last_positive:

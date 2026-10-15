@@ -6,8 +6,8 @@
 2. Periksa `docker compose ps`: empat service healthy.
 3. Buka tiga tab http://localhost:3000. Pilih **Operator**, **Petugas Damkar**, dan **POV Drone**, satu role per tab.
 4. Biarkan **Mode senyap** aktif. Alarm visual tetap bekerja. Jangan aktifkan suara di ruang publik; suara alarm sengaja belum diuji.
-5. Di Operator, pastikan tiga preview, worker fresh, model dan footage siap. Gunakan GeoJSON lokal, reset demo, dan pilih 8×.
-6. Jelaskan: koordinat Kalimantan adalah demonstrasi; footage FIRESENSE bukan footage kamera Kalimantan. Penerbangan, regu, POV, dan pemindaian drone sepenuhnya virtual.
+5. Di Operator, pastikan empat preview, worker fresh, model dan footage siap. Pastikan basemap OpenStreetMap online tampil, reset demo, dan pilih 8×.
+6. Jelaskan: koordinat Kalimantan adalah demonstrasi; footage hutan/kebakaran dari Pexels bukan rekaman di koordinat Kalimantan. Penerbangan, regu, dan pemindaian drone virtual; video POV adalah replay footage asli.
 
 ## Alur presentasi
 
@@ -27,7 +27,7 @@ Reconnaissance otomatis tidak melepas payload. Untuk demonstrasi payload, gunaka
 
 ## Fallback manual
 
-Jika model/footage tidak siap: reset, pilih mode manual, lalu **Buat Kejadian Simulasi Manual**. Lanjutkan verifikasi dan misi otomatis seperti di atas. Antrean, detail, dan laporan wajib disebut **simulasi manual**, bukan deteksi AI. POV selalu sintetis, termasuk saat evidence kamera darat berasal dari AI nyata.
+Jika model/footage tidak siap: reset, pilih mode manual, lalu **Buat Kejadian Simulasi Manual**. Lanjutkan verifikasi dan misi otomatis seperti di atas. Antrean, detail, dan laporan wajib disebut **simulasi manual**, bukan deteksi AI. POV memakai replay footage asli; telemetri dan penentuan lokasi tetap virtual.
 
 ## Pause, abort, dan replay
 
@@ -45,3 +45,5 @@ docker compose run --rm --no-deps -v "${PWD}:/workspace" backend python /workspa
 ```
 
 Smoke test mereset data demo dan melakukan persetujuan operator melalui API untuk QA. Ia menunggu inference nyata, menjalankan reconnaissance otomatis, memeriksa pembaruan lokasi simulasi, dan membuktikan misi selesai meskipun tugas regu belum diterima. Tidak membuka audio browser atau membunyikan alarm. Setelah QA, reset untuk memulai presentasi dengan antrean kosong.
+
+Panel Operator membuka CCTV 2x2. Untuk simulasi water drop, pilih Pemindaian + pelepasan air virtual saat mengizinkan respons otomatis, lalu ikuti role POV Drone. Footage helikopter ditampilkan hanya pada tahap pelepasan payload; untuk pemindaian saja tidak ada water drop.
