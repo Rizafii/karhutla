@@ -1,0 +1,17 @@
+node_modules/
+.next/
+.venv/
+__pycache__/
+.pytest_cache/
+*.pyc
+*.tsbuildinfo
+.env
+data/
+assets/models/*
+assets/videos/*
+assets/source/
+!assets/models/.gitkeep
+!assets/videos/.gitkeep
+test-results/
+playwright-report/
+apps/web/public/maplibre/

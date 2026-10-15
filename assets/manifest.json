@@ -1,0 +1,37 @@
+[
+  {
+    "path": "assets/models/wildfire-smoke-fire.pt",
+    "source": "https://huggingface.co/odiug77/wildfire-smoke-fire",
+    "url": "https://huggingface.co/odiug77/wildfire-smoke-fire/resolve/9c81734ac75d14ba57c7834904891874074e451f/wildfire-smoke-fire.pt",
+    "revision": "9c81734ac75d14ba57c7834904891874074e451f",
+    "license": "Apache-2.0 (publisher model card)",
+    "sha256": "6b7089f0abb37821cc17bd72d9c595591f03d9f230fe49acec0166049c9f213e"
+  },
+  {
+    "source": "https://zenodo.org/records/836749",
+    "authors": "Nikos Grammalidis, Kosmas Dimitropoulos, Enis Cetin",
+    "license": "CC-BY-4.0",
+    "sha256": "876035a132f81119504e9fa53634d56215dd84b29c986d373bff4ee638b37eea",
+    "notes": "FIRESENSE research footage, not recorded in Kalimantan. Selected clips must be documented after preparation."
+  },
+  {
+    "kind": "prepared_clip",
+    "path": "assets/videos/normal.mp4",
+    "sha256": "926b24571993c1667bb2ba6a0f8f10902dd979da178f0d80ddbe25036c288a1a",
+    "source": "https://zenodo.org/records/836749",
+    "license": "CC-BY-4.0",
+    "authors": "Nikos Grammalidis, Kosmas Dimitropoulos, Enis Cetin",
+    "changes": "First 16 seconds of FIRESENSE neg/testneg04.810.avi.",
+    "coordinate_note": "Reference footage is not from Kalimantan. Camera coordinates and monitoring geometry are demonstrations."
+  },
+  {
+    "kind": "prepared_clip",
+    "path": "assets/videos/scenario.mp4",
+    "sha256": "c03e667b82503f2a08c1780b472286234aa5c44c306b38aab35463549acbaeb9",
+    "source": "https://zenodo.org/records/836749",
+    "license": "CC-BY-4.0",
+    "authors": "Nikos Grammalidis, Kosmas Dimitropoulos, Enis Cetin",
+    "changes": "Edited replay: first 8 seconds of neg/testneg04.810.avi, then first 30 seconds of pos/testpos04.820.avi. Source change is intentional; smoke/fire are real footage, not generated.",
+    "coordinate_note": "Reference footage is not from Kalimantan. Camera coordinates and monitoring geometry are demonstrations."
+  }
+]

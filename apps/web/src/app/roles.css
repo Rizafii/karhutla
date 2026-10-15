@@ -1,0 +1,151 @@
+.role-landing { min-height: 100vh; padding: 38px clamp(28px, 6vw, 112px); background: #101713; color: #e4ece4; }
+.role-brand { display: flex; align-items: center; gap: 12px; }
+.role-brand > strong { font-size: 22px; letter-spacing: -.6px; }
+.role-brand > strong > span { color: #86b897; }
+.role-local { margin-left: auto; font-size: 10px; letter-spacing: 1.6px; color: #8fa697; display: flex; align-items: center; gap: 8px; }
+.role-local i, .field-map-foot i { width: 6px; height: 6px; border-radius: 50%; background: #8bc99c; display: inline-block; }
+.role-intro { margin: clamp(50px, 9vh, 100px) 0 38px; max-width: 690px; }
+.role-intro h1 { font-size: clamp(40px, 4.7vw, 70px); font-weight: 500; line-height: 1.06; letter-spacing: -3px; margin: 18px 0 22px; }
+.role-intro p { max-width: 575px; font-size: 14px; line-height: 1.8; color: #92a597; }
+.role-options { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; }
+.role-option { text-align: left; display: flex; flex-direction: column; padding: 27px 26px 0; background: #18221c; border: 1px solid #344238; border-radius: 5px; cursor: pointer; transition: background .2s, border-color .2s, transform .2s; color: #e3eae2; }
+.role-option:hover { transform: translateY(-4px); border-color: #7fba8e; background: #1e2c22; }
+.role-option:focus-visible { outline: 2px solid #9ed8ac; outline-offset: 4px; }
+.role-option-top { display: flex; align-items: center; justify-content: space-between; color: #92c5a0; margin-bottom: 35px; }
+.role-option-top > span { font-family: monospace; font-size: 12px; color: #728777; }
+.role-option > small { font-size: 9px; letter-spacing: 1.6px; color: #93a898; }
+.role-option h2 { display: flex; align-items: center; justify-content: space-between; font-size: 24px; font-weight: 500; letter-spacing: -.7px; margin: 12px 0; }
+.role-option p { font-size: 12px; line-height: 1.8; color: #9bad9f; margin: 0 0 25px; flex: 1; }
+.role-option footer { font-size: 9px; line-height: 1.8; width: calc(100% + 52px); margin-left: -26px; padding: 16px 26px; border-top: 1px solid #344238; color: #8fa394; }
+.role-firefighter .role-option-top { color: #dfb77e; }
+.role-drone .role-option-top { color: #8ab6d7; }
+.role-landing-footer { display: flex; flex-wrap: wrap; gap: 16px; justify-content: space-between; color: #839989; font-size: 10px; margin-top: 25px; }
+.role-landing-footer span { display: flex; gap: 8px; align-items: center; }
+.role-flow { margin-top: 50px; padding: 20px 0; border-top: 1px solid #29382e; display: flex; align-items: center; gap: 20px; color: #7f9787; font-size: 10px; }
+.role-flow i { flex: 1; height: 1px; background: #35483b; max-width: 90px; }
+.role-session-bar { height: 48px; display: flex; align-items: center; gap: 20px; padding: 0 25px; background: #101713; border-bottom: 1px solid #354338; position: sticky; top: 0; z-index: 60; }
+.role-switch { display: flex; align-items: center; gap: 8px; border: 0; background: none; color: #bdcec0; font-size: 11px; cursor: pointer; }
+.role-current { font-size: 9px; letter-spacing: 1.6px; color: #82a58e; border-left: 1px solid #3c4a3f; padding-left: 20px; }
+.alarm-sound { display: flex; align-items: center; gap: 8px; margin-left: auto; background: #243025; color: #afc4b3; border: 1px solid #405444; padding: 5px 10px; border-radius: 3px; font-size: 10px; cursor: pointer; }
+.alarm-sound.enabled { color: #f1c783; background: #3b301b; border-color: #816339; }
+.role-alarm { position: fixed; top: 60px; right: 24px; display: flex; gap: 13px; align-items: center; max-width: calc(100vw - 48px); padding: 16px; color: #f6c88c; background: #34271b; border: 1px solid #a57439; border-left: 4px solid #e6a647; box-shadow: 0 10px 35px #0006; border-radius: 4px; z-index: 100; }
+.role-alarm > div { display: grid; gap: 5px; }
+.role-alarm strong { font-size: 12px; }
+.role-alarm span { font-size: 10px; color: #c9ae8c; }
+.alarm-ack { display: flex; align-items: center; gap: 5px; background: none; border: none; color: #dfc09d; cursor: pointer; font-size: 10px; }
+.role-app .sidebar { top: 48px; height: calc(100vh - 48px); }
+.role-wait { min-height: calc(100vh - 48px); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px; color: #99b29e; }
+.field-page, .drone-page { max-width: 2000px; margin: auto; padding: 30px 35px 35px; }
+.role-page-heading { display: flex; align-items: center; justify-content: space-between; gap: 15px; margin-bottom: 27px; }
+.role-page-heading h1 { display: flex; align-items: center; gap: 13px; font-size: 30px; letter-spacing: -.8px; font-weight: 500; margin: 9px 0; color: #e2ece2; }
+.role-page-heading p { font-size: 12px; color: #8fa494; line-height: 1.7; }
+.field-unit-tabs { display: flex; gap: 15px; margin-bottom: 24px; }
+.field-unit-tabs button { display: flex; gap: 12px; align-items: center; min-width: 260px; padding: 18px; background: #19221c; border: 1px solid #354438; color: #94a89a; cursor: pointer; border-radius: 4px; }
+.field-unit-tabs button.selected { border-color: #90b38e; background: #243126; color: #bddaaf; }
+.field-unit-tabs button > span { display: grid; gap: 5px; text-align: left; }
+.field-unit-tabs strong { font-size: 13px; font-weight: 500; }
+.field-unit-tabs small { font-size: 10px; color: #95a99a; }
+.field-unit-tabs i { width: 7px; height: 7px; background: #d0ac65; margin-left: 25px; border-radius: 50%; }
+.field-unit-tabs i.available { background: #90ba94; }
+.field-layout { display: grid; grid-template-columns: minmax(340px, 420px) minmax(0, 1fr); gap: 22px; }
+.field-tasks { border: 1px solid #344439; border-radius: 4px; background: #17211a; overflow: hidden; }
+.panel-title { padding: 17px 20px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #344439; }
+.panel-title h2 { font-size: 12px; font-weight: 500; color: #bdcdbd; margin: 0; }
+.panel-title > span { font-size: 12px; color: #8fb69a; font-family: monospace; }
+.field-standby { padding: 45px 28px; display: flex; flex-direction: column; align-items: center; text-align: center; color: #90b09a; }
+.field-standby h2 { font-size: 18px; color: #c2d2be; margin: 20px 0 12px; font-weight: 500; }
+.field-standby p { font-size: 12px; line-height: 1.8; color: #92a598; }
+.field-standby > span { font-family: monospace; font-size: 10px; margin-top: 30px; }
+.field-assignment { padding: 22px; border-bottom: 1px solid #344439; }
+.field-assignment-heading { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; }
+.field-assignment-heading > small { font-size: 9px; color: #7f9588; }
+.field-assignment h2 { display: flex; align-items: center; gap: 8px; font-size: 20px; font-weight: 500; margin: 23px 0 8px; }
+.field-assignment > p { font-size: 11px; color: #8ea091; margin-bottom: 22px; }
+.field-target { background: #263126; border: 1px solid #46573d; padding: 15px; display: flex; align-items: flex-start; gap: 10px; color: #c4d3ad; border-radius: 3px; }
+.field-target > div { display: grid; gap: 8px; }
+.field-target strong { font-family: monospace; font-size: 13px; }
+.field-target span, .field-target small { font-size: 10px; line-height: 1.5; color: #9faf94; }
+.field-detail-row { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 10px; margin: 18px 0; font-size: 9px; color: #8fa494; }
+.field-detail-row span { display: flex; align-items: center; gap: 5px; }
+.field-evidence { width: 100%; border-radius: 3px; margin-bottom: 15px; }
+.field-assignment blockquote { border-left: 2px solid #597b5e; margin: 0 0 15px; padding: 8px 12px; color: #afc1b0; font-size: 12px; }
+.field-assignment .help-text { display: block; margin-top: 12px; }
+.field-sector-row { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; padding: 18px 20px; border-bottom: 1px solid #2e4032; }
+.field-sector-row strong { font-size: 11px; }
+.field-sector-row small { width: 100%; color: #8fa395; font-size: 10px; }
+.field-map { height: max(480px, 59vh); border: 1px solid #344439; border-radius: 4px; }
+.field-map .map-toolbar > span { display: flex; align-items: center; gap: 8px; }
+.field-map .map-toolbar small { font-size: 8px; }
+.field-map-foot { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; font-size: 10px; padding: 17px 0; color: #a6b9aa; }
+.field-map-foot span { display: flex; align-items: center; gap: 8px; }
+.field-radio { margin-top: 7px; padding: 20px; background: #1c2b21; border: 1px solid #3d5141; display: flex; align-items: flex-start; gap: 13px; color: #9bbba2; border-radius: 4px; }
+.field-radio strong { font-size: 12px; font-weight: 500; }
+.field-radio p { font-size: 11px; color: #91a697; line-height: 1.8; margin-top: 8px; }
+.auto-response-button { margin: 13px 0 0; height: auto; min-height: 38px; white-space: normal; line-height: 1.5; padding: 9px; }
+.drone-auto-tag { font-family: monospace; font-size: 11px; color: #8bbadb; background: #213442; border: 1px solid #46657d; padding: 5px 8px; border-radius: 3px; letter-spacing: 1px; }
+.drone-layout { display: grid; grid-template-columns: minmax(0, 1fr) 350px; gap: 22px; }
+.drone-pov { height: min(65vh, 740px); min-height: 470px; position: relative; background: #26372c; overflow: hidden; border: 1px solid #526354; border-radius: 4px; color: #e0f0d8; font-family: monospace; }
+.drone-pov-canvas { width: 100%; height: 100%; display: block; }
+.pov-top, .pov-bottom { position: absolute; left: 0; right: 0; padding: 18px 22px; display: flex; justify-content: space-between; align-items: center; gap: 15px; background: #0b17167a; text-shadow: 0 1px 5px #000; }
+.pov-top { top: 0; font-size: 10px; }
+.pov-top > div { display: flex; align-items: center; gap: 10px; }
+.pov-top > div:first-child > svg { color: #b8e4a3; }
+.pov-top strong { font-size: 13px; font-weight: 500; }
+.pov-top span { border-left: 1px solid #a6b89a70; padding-left: 10px; color: #bfccae; font-size: 9px; }
+.pov-bottom { bottom: 0; font-size: 9px; padding: 14px 18px; }
+.pov-bottom > span:nth-child(2) { color: #c3d0b2; font-size: 8px; }
+.pov-heading-tape { display: flex; gap: 14px; position: absolute; top: 85px; left: 50%; transform: translateX(-50%); align-items: center; font-size: 9px; color: #deebd1; white-space: nowrap; }
+.pov-heading-tape > i { width: 32px; height: 1px; background: #d6e5b6b3; }
+.pov-side { position: absolute; top: 35%; display: flex; flex-direction: column; gap: 6px; text-shadow: 0 1px 5px #0008; }
+.pov-left { left: 26px; }
+.pov-right { right: 26px; text-align: right; }
+.pov-side > span { font-size: 9px; color: #c6d9b5; letter-spacing: 1.5px; }
+.pov-side > strong { font-size: 28px; font-weight: 400; }
+.pov-side small { font-size: 10px; padding-left: 4px; }
+.pov-side > i { height: 25px; border-left: 1px solid #e2eec177; width: 1px; margin: 15px 0; }
+.pov-right > i { align-self: flex-end; }
+.pov-reticle { position: absolute; top: 50%; left: 50%; width: 75px; height: 75px; transform: translate(-50%, -50%); border: 1px solid #d9eac56b; border-radius: 50%; }
+.pov-reticle::before, .pov-reticle::after { content: ""; position: absolute; background: #def1c9b3; }
+.pov-reticle::before { width: 115px; height: 1px; top: 37px; left: -20px; }
+.pov-reticle::after { height: 115px; width: 1px; left: 37px; top: -20px; }
+.pov-idle { position: absolute; left: 25%; right: 25%; top: 48%; transform: translateY(-50%); padding: 24px; display: flex; align-items: center; flex-direction: column; gap: 13px; text-align: center; background: #11221ac9; border: 1px solid #7b9a6e; border-radius: 3px; }
+.pov-idle strong { font-size: 11px; letter-spacing: 1px; }
+.pov-idle span { font-size: 10px; line-height: 1.8; color: #afc5ab; }
+.pov-scan-status { position: absolute; bottom: 70px; left: 50%; transform: translateX(-50%); display: flex; align-items: center; gap: 12px; white-space: nowrap; font-size: 10px; padding: 13px 17px; background: #132f22d9; border: 1px solid #96c18c; color: #c8e6b3; }
+.is-scanning .pov-reticle { border-radius: 0; width: 150px; height: 120px; border-color: #dddc7a; }
+.is-scanning .pov-reticle::before { width: 190px; left: -20px; top: 59px; }
+.is-scanning .pov-reticle::after { height: 160px; top: -20px; left: 74px; }
+.drone-telemetry-strip { display: grid; grid-template-columns: repeat(4, 1fr); border: 1px solid #364a3d; background: #17241d; border-radius: 4px; margin-top: 14px; }
+.drone-telemetry-strip > div { display: flex; align-items: center; justify-content: center; gap: 13px; padding: 20px 10px; color: #95b19d; border-right: 1px solid #364a3d; }
+.drone-telemetry-strip > div:last-child { border: 0; }
+.drone-telemetry-strip span { display: grid; gap: 8px; font-size: 8px; letter-spacing: .5px; }
+.drone-telemetry-strip strong { font-family: monospace; font-size: 22px; font-weight: 400; color: #d3e0ce; }
+.pov-caption { display: flex; align-items: flex-start; gap: 12px; color: #889f90; padding: 20px 4px; }
+.pov-caption > svg { flex-shrink: 0; margin-top: 2px; }
+.pov-caption p { font-size: 10px; line-height: 1.8; max-width: 800px; margin: 0; }
+.drone-side-panel { border: 1px solid #364a3d; background: #17221c; border-radius: 4px; overflow: hidden; }
+.drone-mission-info { padding: 20px; }
+.drone-mission-info > strong { display: block; font-family: monospace; font-weight: 400; font-size: 12px; color: #c7d5bf; margin-top: 15px; }
+.drone-mission-info > p { font-size: 10px; color: #8da393; line-height: 1.7; margin-top: 8px; }
+.drone-mission-steps { display: grid; gap: 17px; margin-top: 25px; }
+.drone-mission-steps > div { display: flex; gap: 12px; align-items: center; font-size: 11px; color: #7f9788; }
+.drone-mission-steps > div > span { display: grid; place-items: center; width: 22px; height: 22px; border: 1px solid #45604c; border-radius: 50%; font-size: 10px; }
+.drone-mission-steps > .done { color: #bdd7b8; }
+.drone-mission-steps > .done > span { background: #39513a; border-color: #6a9169; }
+.drone-location { padding: 17px 20px; border-top: 1px solid #364a3d; display: flex; gap: 10px; color: #aec596; background: #233020; }
+.drone-location > svg { flex-shrink: 0; }
+.drone-location strong { font-family: monospace; font-size: 11px; font-weight: 400; }
+.drone-location p, .drone-location small { display: block; font-size: 9px; line-height: 1.8; color: #a0af92; margin-top: 5px; }
+.drone-mini-map { height: 250px; border-top: 1px solid #364a3d; border-bottom: 1px solid #364a3d; }
+.drone-mini-map .map-toolbar > span { display: flex; align-items: center; gap: 8px; }
+.drone-mini-map .map-toolbar small { font-size: 8px; }
+.drone-mini-map .map-marker { font-size: 8px; }
+.drone-home { padding: 14px 20px; color: #8da697; font-family: monospace; font-size: 9px; display: flex; align-items: center; gap: 8px; }
+.drone-event-list { padding: 15px 20px; max-height: 220px; overflow-y: auto; }
+.drone-event-list > div { display: flex; gap: 10px; padding: 8px 0; font-size: 10px; color: #b3c4b2; line-height: 1.6; }
+.drone-event-list time { color: #7a9787; font-family: monospace; font-size: 9px; }
+.drone-event-list > p { color: #8da393; font-size: 10px; }
+@media (min-width: 1700px) { .role-intro { margin-top: 10vh; } .role-options { gap: 24px; } .role-option { padding-top: 35px; } .role-option-top { margin-bottom: 45px; } .role-option p { font-size: 14px; } .drone-layout { grid-template-columns: minmax(0, 1fr) 390px; } }
+@media (max-width: 1100px) { .role-option { padding: 22px 20px 0; } .role-option footer { width: calc(100% + 40px); margin-left: -20px; padding: 15px 20px; } .role-option h2 { font-size: 21px; } .field-page, .drone-page { padding: 24px; } .drone-layout { grid-template-columns: minmax(0, 1fr) 300px; gap: 15px; } .pov-top { padding: 15px 12px; } .pov-top span { font-size: 8px; } .pov-bottom > span:nth-child(2) { display: none; } .pov-idle { left: 20%; right: 20%; } .field-layout { grid-template-columns: 340px minmax(0, 1fr); gap: 16px; } .field-map .map-toolbar small { display: none; } .drone-telemetry-strip > div { gap: 8px; } .drone-telemetry-strip strong { font-size: 18px; } }
+@media (max-width: 850px) { .role-options { grid-template-columns: 1fr; } .role-intro { margin-top: 45px; } .role-option { padding-top: 20px; } .role-option-top { margin-bottom: 20px; } .role-flow { flex-wrap: wrap; gap: 10px; line-height: 1.8; margin-top: 25px; } .role-flow i { flex: 0 0 15px; } .role-current { display: none; } .role-local { font-size: 8px; } .role-brand > strong { font-size: 18px; } .role-alarm { flex-wrap: wrap; left: 12px; right: 12px; max-width: none; padding: 13px; gap: 12px; } .role-alarm > div { flex: 1; } .role-page-heading { align-items: flex-start; } .role-page-heading h1 { font-size: 24px; } .role-page-heading > .connection { font-size: 9px; } .field-layout, .drone-layout { grid-template-columns: 1fr; } .field-map-section { grid-row: 1; } .field-map { height: 390px; } .field-unit-tabs { flex-wrap: wrap; } .field-unit-tabs > button { flex: 1; min-width: 235px; } .drone-pov { min-height: 430px; } .drone-mini-map { height: 300px; } .pov-idle { left: 23%; right: 23%; } .drone-telemetry-strip span { font-size: 7px; } .field-page, .drone-page { padding: 20px 16px; } }
+@media (prefers-reduced-motion: reduce) { .role-option { transition: none; } }

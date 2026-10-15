@@ -1,0 +1,40 @@
+{
+  "name": "karhutla-command-center",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "postinstall": "node scripts/copy-maplibre-assets.mjs",
+    "predev": "node scripts/copy-maplibre-assets.mjs",
+    "prebuild": "node scripts/copy-maplibre-assets.mjs",
+    "dev": "next dev --hostname 0.0.0.0",
+    "build": "next build",
+    "start": "next start --hostname 0.0.0.0",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@radix-ui/react-alert-dialog": "^1.1.6",
+    "@radix-ui/react-dialog": "^1.1.6",
+    "@radix-ui/react-slot": "^1.2.3",
+    "@tanstack/react-query": "^5.80.0",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "lucide-react": "^0.511.0",
+    "maplibre-gl": "6.14.0",
+    "next": "^16.0.0",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "recharts": "^3.0.0",
+    "tailwind-merge": "^3.3.0",
+    "zustand": "^5.0.5"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.1.0",
+    "@types/node": "^22.15.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "tailwindcss": "^4.1.0",
+    "typescript": "^5.8.3",
+    "vitest": "5.0.4"
+  }
+}
