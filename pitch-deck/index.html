@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<meta name="description" content="Pitch deck KARHUTLA.AI — deteksi asap dan api, verifikasi operator, dan koordinasi respons. MVP Sustainability Hackathon.">
+<title>KARHUTLA.AI — Pitch Deck</title>
+<style>
+:root{--ink:#0c1915;--panel:#14271f;--line:#354b40;--mint:#b4edb4;--text:#f1f4eb;--muted:#acbeb0;--amber:#edb66e}
+*{box-sizing:border-box}html{scroll-behavior:smooth;scroll-padding-top:85px}body{margin:0;background:#060d0a;color:var(--text);font-family:Arial,Helvetica,sans-serif}button,a{-webkit-tap-highlight-color:transparent}button{font:inherit}a{color:inherit;text-underline-offset:3px}button:focus-visible,a:focus-visible{outline:3px solid var(--amber);outline-offset:4px}
+.toolbar{position:sticky;top:0;z-index:20;display:flex;align-items:center;justify-content:space-between;gap:14px;padding:14px 24px;background:#0c1915f5;border-bottom:1px solid var(--line);font-size:13px}.toolbar strong{letter-spacing:1px}.toolbar .controls{display:flex;align-items:center;gap:8px}.toolbar button{border:1px solid #455e4f;border-radius:5px;padding:9px 14px;color:var(--text);background:#1b3025;cursor:pointer}.toolbar button:disabled{opacity:.4;cursor:default}.toolbar .print{background:var(--mint);color:var(--ink);font-weight:700}.toolbar output{min-width:56px;text-align:center;font-variant-numeric:tabular-nums}.toolbar[hidden]{display:none}.skip{position:fixed;top:-100px;left:16px;z-index:40;padding:12px;background:var(--mint);color:var(--ink)}.skip:focus{top:12px}
+.deck{padding:28px 0 50px}.frame{container-type:inline-size;width:min(1280px,calc(100% - 48px));margin:0 auto 28px;box-shadow:0 12px 48px #0005}.slide{height:56.25cqw;padding:3.6cqw 4.7cqw 2.5cqw;background:var(--ink);position:relative;overflow:hidden;display:flex;flex-direction:column;font-size:1.56cqw;line-height:1.45;isolation:isolate}.slide:target{outline:2px solid var(--mint)}.slide h1,.slide h2,.slide h3,.slide p,.slide figure{margin:0}.mast{display:flex;align-items:center;justify-content:space-between;font-size:.82cqw;letter-spacing:.15cqw;text-transform:uppercase;font-weight:700;margin-bottom:2.3cqw;color:var(--muted)}.brand{color:var(--text);letter-spacing:.06cqw}.brand em{font-style:normal;color:var(--mint)}.chapter{display:flex;align-items:center;gap:1cqw}.chapter::before{content:"";width:2.6cqw;height:1px;background:currentColor}.slide h1{font-size:5.55cqw;line-height:1.03;letter-spacing:-.27cqw;font-weight:700}.slide h2{font-size:3.55cqw;line-height:1.1;letter-spacing:-.13cqw;max-width:80cqw}.slide h3{font-size:1.95cqw;line-height:1.2;letter-spacing:-.04cqw}.lead{font-size:1.52cqw;color:var(--muted);max-width:72cqw;margin-top:1.2cqw!important;line-height:1.5}.accent{color:var(--mint)}.amber{color:var(--amber)}.body{flex:1;min-height:0;margin-top:2.5cqw}.footer{display:flex;align-items:center;justify-content:space-between;gap:2cqw;border-top:1px solid var(--line);padding-top:1cqw;margin-top:1.5cqw;font-size:.78cqw;color:var(--muted)}.footer .page{font-size:1cqw;color:var(--text);font-variant-numeric:tabular-nums}.eyebrow{font-size:.9cqw;letter-spacing:.15cqw;text-transform:uppercase;font-weight:700;color:var(--mint)}.pill{display:inline-block;padding:.38cqw .7cqw;border:1px solid var(--line);font-size:.82cqw;letter-spacing:.04cqw;border-radius:3px}.pill.sim{color:var(--amber);border-color:#785f3d;background:#382c1d}.muted{color:var(--muted)}.small{font-size:1.12cqw;line-height:1.5}.note{font-size:.86cqw;color:var(--muted);line-height:1.5}.columns{display:grid;grid-template-columns:1fr 1fr;gap:3cqw}.three{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5cqw}.card{padding:2cqw;background:var(--panel);border:1px solid var(--line)}.card p{margin-top:1.2cqw;color:var(--muted);font-size:1.3cqw}.card .num{font-size:3.2cqw;line-height:1;color:var(--mint);margin-bottom:2cqw;display:block}.rule{height:1px;background:var(--line);margin:1.6cqw 0}.statement{font-size:2.3cqw;line-height:1.25;letter-spacing:-.04cqw}.image{width:100%;height:100%;object-fit:contain;display:block}.shot{border:1px solid var(--line);background:#09120e;padding:.5cqw}.caption{font-size:.82cqw;line-height:1.45;color:var(--muted);margin-top:.7cqw!important}.stack{display:flex;flex-direction:column;gap:1.6cqw}.list-row{border-top:1px solid var(--line);padding-top:1.25cqw}.list-row h3{font-size:1.65cqw}.list-row p{font-size:1.16cqw;color:var(--muted);margin-top:.5cqw}.light{--ink:#edf0e5;--panel:#e0e7d9;--line:#bdcab9;--mint:#23583b;--text:#172c20;--muted:#4f6654;--amber:#87511c;color:var(--text)}
+/* Cover: a product-led composition, using the actual demonstration map. */
+.cover{background:linear-gradient(120deg,#10251b,#0c1915 65%)}.cover-grid{display:grid;grid-template-columns:1.3fr 1fr;gap:3cqw;align-items:center;flex:1}.cover h1{margin-top:1.6cqw}.cover .lead{max-width:44cqw;font-size:1.55cqw;margin-top:1.8cqw!important}.cover-visual{position:relative;border:1px solid #628e66;padding:1cqw;background:#152d22;transform:rotate(-3deg)}.cover-visual img{width:100%;display:block;filter:saturate(.65)}.visual-top{display:flex;justify-content:space-between;font-size:.75cqw;letter-spacing:.08cqw;margin-bottom:.8cqw;color:var(--mint)}.cover-tag{display:flex;align-items:center;gap:1cqw;margin-top:1.2cqw;font-size:.9cqw}.dot{width:.5cqw;height:.5cqw;background:var(--mint);border-radius:50%;display:inline-block}.cover-bottom{display:flex;gap:3cqw;font-size:.92cqw;margin-top:2cqw}.cover-bottom span{border-left:2px solid var(--mint);padding-left:1cqw}.cover .footer{margin-top:2cqw}
+.problem-grid{display:grid;grid-template-columns:1.05fr 1fr;gap:6cqw;align-items:center}.problem-quote{font-size:3.2cqw;line-height:1.18;letter-spacing:-.12cqw}.problem-list{display:flex;flex-direction:column;gap:1.7cqw}.problem-item{display:grid;grid-template-columns:3cqw 1fr;gap:1cqw;border-top:1px solid var(--line);padding-top:1.1cqw}.problem-item b{font-size:1cqw;color:var(--mint)}.problem-item h3{font-size:1.65cqw}.problem-item p{font-size:1.2cqw;color:var(--muted);margin-top:.5cqw}
+.role-card{display:flex;flex-direction:column}.role-card .role-label{font-size:.85cqw;letter-spacing:.1cqw;color:var(--mint);margin-bottom:.6cqw}.role-card .outcome{margin-top:auto;padding-top:1.5cqw;border-top:1px solid var(--line);font-size:1.12cqw;color:var(--text)}.role-card p{margin-bottom:1.8cqw}
+.flow{display:grid;grid-template-columns:repeat(5,1fr);gap:1.4cqw;position:relative}.flow-step{position:relative;border-top:3px solid var(--mint);background:var(--panel);padding:1.6cqw 1.25cqw;min-height:16cqw}.flow-step:not(:last-child)::after{content:"→";position:absolute;right:-1.3cqw;top:6cqw;color:var(--mint);z-index:1}.flow-step .step{font-size:1cqw;color:var(--mint);display:block;margin-bottom:2cqw}.flow-step h3{font-size:1.5cqw}.flow-step p{font-size:1.07cqw;color:var(--muted);margin-top:.8cqw}.flow-step.human{border-color:var(--amber)}.flow-step.human .step{color:var(--amber)}.flow-bottom{display:flex;justify-content:space-between;align-items:center;margin-top:2.2cqw;border-bottom:1px solid var(--line);padding-bottom:1.4cqw}.flow-bottom p{font-size:1.35cqw}.flow-bottom span{font-size:1cqw;color:var(--muted)}
+.product-grid{display:grid;grid-template-columns:3.1fr 1fr;gap:2cqw}.product-grid .shot{height:29.7cqw}.product-grid .stack{padding-top:.2cqw}.metric{font-size:4cqw;color:var(--mint);line-height:1}.metric-label{font-size:1cqw;color:var(--muted);margin-top:.5cqw!important}.approval{padding:2.3cqw;border:1px solid #77613f;background:#201e14}.approval .eyebrow{color:var(--amber)}.approval h3{font-size:2.25cqw;margin-top:1.2cqw}.approval .checks{margin-top:1.8cqw;display:flex;flex-direction:column;gap:1cqw;font-size:1.2cqw}.checks span::before{content:"✓";color:var(--mint);margin-right:1cqw}.approval .decision{margin-top:2cqw;padding:1.1cqw;background:var(--mint);color:#10251b;font-size:1.15cqw;font-weight:700}.process-list{display:flex;flex-direction:column;gap:1.9cqw}.process-list article{display:grid;grid-template-columns:2.5cqw 1fr;gap:1cqw}.process-list .index{font-size:1cqw;color:var(--mint);padding-top:.3cqw}.process-list p{font-size:1.15cqw;color:var(--muted);margin-top:.6cqw}.map-grid{display:grid;grid-template-columns:1.8fr 1fr;gap:2.6cqw}.map-grid .shot{height:29.8cqw}.status-line{display:flex;gap:.5cqw;align-items:center;margin-top:1.5cqw;font-size:.85cqw;color:var(--mint)}.status-line span{border:1px solid var(--line);padding:.5cqw}.drone-grid{display:grid;grid-template-columns:1fr 1fr;gap:2cqw}.drone-grid .shot{height:25.3cqw}.drone-title{display:flex;align-items:center;justify-content:space-between;margin-bottom:.8cqw}.drone-title h3{font-size:1.3cqw}.drone-note{margin-top:1.3cqw!important;font-size:1.1cqw;color:var(--muted)}
+.architecture{display:grid;grid-template-columns:.9fr 1.2fr 1.2fr 1.1fr;gap:2cqw}.architecture article{border:1px solid var(--line);padding:1.6cqw;background:var(--panel);position:relative}.architecture article:not(:last-child)::after{content:"→";position:absolute;right:-1.65cqw;top:7cqw;color:var(--mint)}.architecture .eyebrow{font-size:.75cqw;letter-spacing:.05cqw}.architecture h3{font-size:1.7cqw;margin-top:1.8cqw}.architecture p{font-size:1.12cqw;color:var(--muted);margin-top:1.1cqw}.architecture .tech{font-size:.9cqw;color:var(--mint);border-top:1px solid var(--line);margin-top:1.5cqw;padding-top:1cqw}.tech-bottom{display:grid;grid-template-columns:1fr 1fr;gap:3cqw;margin-top:2cqw}.tech-bottom p{font-size:1.1cqw;color:var(--muted)}.tech-bottom strong{color:var(--text)}
+.proof-grid{display:grid;grid-template-columns:1.12fr 1fr;gap:3cqw}.proof-metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:1cqw;margin-top:1.5cqw}.proof-metrics article{border-top:1px solid var(--line);padding-top:1cqw}.proof-metrics b{display:block;font-size:3.5cqw;font-weight:400;color:var(--mint);line-height:1.1}.proof-metrics span{font-size:1.05cqw}.proof-metrics small{font-size:.8cqw;display:block;color:var(--muted)}.proof-result{margin-top:2cqw;padding:1.6cqw;background:var(--panel);border-left:3px solid var(--mint)}.proof-result h3{font-size:1.6cqw}.proof-result p{margin-top:.8cqw;font-size:1.12cqw;color:var(--muted)}.boundaries{border-left:1px solid var(--line);padding-left:2.5cqw}.boundaries article+article{margin-top:1.4cqw}.boundaries h3{font-size:1.3cqw;color:var(--mint)}.boundaries p{font-size:1.1cqw;color:var(--muted);margin-top:.5cqw}.boundaries article:last-child h3{color:var(--amber)}
+.impact-card{padding:0 1.5cqw 0 0;border-top:2px solid var(--mint);background:transparent;border-right:1px solid var(--line)}.impact-card:last-child{border-right:0}.impact-card .num{margin-top:1.5cqw}.impact-card h3{font-size:2cqw}.impact-card p{font-size:1.2cqw;min-height:5.5cqw}.measure{margin-top:1.8cqw;padding-top:1.1cqw;border-top:1px solid var(--line);font-size:1.08cqw}.measure b{display:block;font-size:.8cqw;letter-spacing:.08cqw;color:var(--mint);margin-bottom:.5cqw}.roadmap{display:grid;grid-template-columns:repeat(3,1fr);gap:2cqw}.roadmap article{border-top:1px solid var(--line);padding-top:1.5cqw}.roadmap .eyebrow{font-size:.85cqw}.roadmap h3{margin-top:1cqw}.roadmap p{font-size:1.2cqw;color:var(--muted);margin-top:1cqw}.closing{font-size:2.8cqw;line-height:1.18;letter-spacing:-.08cqw;margin-top:3cqw!important;max-width:78cqw}.source-note{font-size:.8cqw;color:var(--muted);margin-top:1.6cqw!important;line-height:1.5}
+.cover-visual img{height:auto}.cover-grid{min-height:0}.product-grid .shot{height:33.5cqw}.product-grid .stack{gap:1.1cqw}
+.approval{padding:2cqw}.approval .checks{margin-top:1.5cqw}.approval .decision{margin-top:1.6cqw}.flow-bottom p span{font-size:inherit;color:var(--mint)}
+.screen-help{width:min(1280px,calc(100% - 48px));margin:0 auto;color:#aabcae;font-size:12px;line-height:1.6}.screen-help p{margin:5px 0}.screen-help a{color:#b4edb4}
+@media(max-width:600px){.toolbar{padding:10px 12px;font-size:11px;gap:8px}.toolbar strong{font-size:10px;letter-spacing:0}.toolbar .controls{gap:4px}.toolbar button{padding:9px 10px}.toolbar output{min-width:42px}.toolbar .print{font-size:10px}.frame{width:calc(100% - 16px);margin-bottom:16px}.deck{padding-top:16px}.screen-help{width:calc(100% - 24px)}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+@page{size:320mm 180mm;margin:0}
+@media print{html{scroll-behavior:auto}body{background:white;print-color-adjust:exact;-webkit-print-color-adjust:exact}.toolbar,.skip,.screen-help{display:none!important}.deck{padding:0}.frame{width:320mm;height:180mm;margin:0;box-shadow:none;break-after:page;break-inside:avoid}.frame:last-of-type{break-after:auto}.slide{height:180mm;outline:none!important}}
+</style>
+</head>
+<body>
+<a class="skip" href="#slide-1">Langsung ke slide</a>
+<nav class="toolbar" aria-label="Navigasi presentasi" hidden>
+  <strong>KARHUTLA<span class="accent">.AI</span> <span class="muted">/ PITCH DECK</span></strong>
+  <div class="controls"><button id="previous" type="button" aria-label="Slide sebelumnya">←</button><output id="position" aria-live="polite">01 / 12</output><button id="next" type="button" aria-label="Slide berikutnya">→</button><button id="print" type="button" class="print">Cetak / Simpan PDF</button></div>
+</nav>
+<main class="deck" aria-label="Pitch deck KARHUTLA.AI, 12 slide">
+
+<div class="frame"><section class="slide cover" id="slide-1" aria-labelledby="title-1">
+  <header class="mast"><span class="brand">KARHUTLA<em>.AI</em></span><span class="chapter">Sustainability Hackathon · MVP</span></header>
+  <div class="cover-grid">
+    <div><div class="eyebrow">Wildfire early detection & response</div><h1 id="title-1">Dari deteksi<br>asap menuju<br><span class="accent">respons<br>terkoordinasi.</span></h1><p class="lead">AI, verifikasi manusia, dan koordinasi penanganan dalam satu command center.</p></div>
+    <figure class="cover-visual"><div class="visual-top"><span>OPERATIONAL VIEW</span><span>DEMO / KALIMANTAN TENGAH</span></div><img src="assets/map.png" width="840" height="497" alt="Screenshot peta operasi dengan kamera, kandidat insiden, dan drone virtual pada koordinat demonstrasi."><figcaption class="cover-tag"><span class="dot"></span>Deteksi AI nyata · respons drone virtual</figcaption></figure>
+  </div>
+  <div class="cover-bottom"><span>04 kamera pemantauan</span><span>03 ruang kerja demo</span><span>01 alur deteksi hingga laporan</span></div>
+  <footer class="footer"><span>KARHUTLA.AI / PITCH DECK</span><span>Prototipe lokal · Oktober 2026</span><span class="page">01 / 12</span></footer>
+</section></div>
+
+<div class="frame"><section class="slide light" id="slide-2" aria-labelledby="title-2">
+  <header class="mast"><span class="brand">KARHUTLA<em>.AI</em></span><span class="chapter">Masalah</span></header>
+  <h2 id="title-2">Melihat indikasi kebakaran<br>baru langkah pertama.</h2>
+  <div class="body problem-grid"><div><p class="problem-quote">Informasi perlu menjadi<br><span class="accent">keputusan.</span><br>Keputusan perlu menjadi<br><span class="accent">tindakan.</span></p><p class="lead">Fokus masalah yang kami angkat: kesinambungan antara pemantauan, verifikasi, dan koordinasi respons.</p></div>
+    <div class="problem-list"><article class="problem-item"><b>01</b><div><h3>Pantau banyak sumber</h3><p>Operator perlu meninjau kamera dan mengenali indikasi asap atau api yang layak diperiksa.</p></div></article><article class="problem-item"><b>02</b><div><h3>Verifikasi dengan konteks</h3><p>Alarm perlu disertai bukti visual, sumber kamera, waktu, dan perkiraan lokasi.</p></div></article><article class="problem-item"><b>03</b><div><h3>Hubungkan respons</h3><p>Penugasan, progres lapangan, dan hasil penanganan perlu tercatat dalam satu alur.</p></div></article></div>
+  </div>
+  <footer class="footer"><span>PROBLEM / Dari pengamatan menuju penanganan</span><span class="page">02 / 12</span></footer>
+</section></div>
+
+<div class="frame"><section class="slide" id="slide-3" aria-labelledby="title-3">
+  <header class="mast"><span class="brand">KARHUTLA<em>.AI</em></span><span class="chapter">Calon pengguna</span></header>
+  <h2 id="title-3">Satu kejadian.<br><span class="accent">Kebutuhan yang saling terhubung.</span></h2>
+  <p class="lead">Dirancang untuk membantu pihak yang memantau, menangani, dan mengevaluasi kejadian.</p>
+  <div class="body three">
+    <article class="card role-card"><span class="num">01</span><span class="role-label">PEMANTAUAN</span><h3>Operator</h3><p>Meninjau kamera, memeriksa evidence, menetapkan status insiden, dan mengizinkan respons.</p><div class="outcome">Kebutuhan: situasi dan keputusan yang jelas.</div></article>
+    <article class="card role-card"><span class="num">02</span><span class="role-label">PENANGANAN</span><h3>Petugas damkar</h3><p>Menerima penugasan regu, melihat koordinat perkiraan, dan memperbarui progres penanganan.</p><div class="outcome">Kebutuhan: tugas dan status yang tersambung.</div></article>
+    <article class="card role-card"><span class="num">03</span><span class="role-label">EVALUASI</span><h3>Pengelola kawasan</h3><p>Meninjau riwayat kejadian dan laporan untuk mendukung evaluasi prosedur pemantauan.</p><div class="outcome">Kebutuhan: rekam tindakan yang dapat ditelusuri.</div></article>
+  </div>
+  <footer class="footer"><span>Target pengguna yang diusulkan; belum merupakan mitra atau pengguna aktif.</span><span class="page">03 / 12</span></footer>
+</section></div>
+
+<div class="frame"><section class="slide" id="slide-4" aria-labelledby="title-4">
+  <header class="mast"><span class="brand">KARHUTLA<em>.AI</em></span><span class="chapter">Solusi</span></header>
+  <h2 id="title-4">Satu alur, dari kamera<br>hingga laporan kejadian.</h2><p class="lead">Nilai utama MVP: menghubungkan deteksi visual dengan workflow operasional yang tercatat.</p>
+  <div class="body"><div class="flow" aria-label="Alur solusi"><article class="flow-step"><span class="step">01 / AMATI</span><h3>Kamera</h3><p>Pantau video dan tangkap frame untuk inference.</p></article><article class="flow-step"><span class="step">02 / DETEKSI</span><h3>AI smoke / fire</h3><p>Validasi temporal dan simpan evidence kandidat.</p></article><article class="flow-step human"><span class="step">03 / PUTUSKAN</span><h3>Verifikasi operator</h3><p>Tinjau indikasi dan setujui tindakan respons.</p></article><article class="flow-step"><span class="step">04 / KOORDINASI</span><h3>Regu & drone</h3><p>Penugasan petugas dan misi drone virtual.</p></article><article class="flow-step"><span class="step">05 / TELUSURI</span><h3>Riwayat & laporan</h3><p>Catat status, aktivitas, dan penutupan insiden.</p></article></div>
+    <div class="flow-bottom"><p>AI memberi indikasi. <span class="accent">Operator memegang keputusan.</span></p><span>Persetujuan eksplisit sebelum misi</span></div>
+    <p class="note">Peluncuran, penerbangan, pemindaian, dan payload drone pada MVP sepenuhnya virtual.</p>
+  </div>
+  <footer class="footer"><span>SOLUTION / Deteksi → verifikasi → koordinasi → dokumentasi</span><span class="page">04 / 12</span></footer>
+</section></div>
+
+<div class="frame"><section class="slide" id="slide-5" aria-labelledby="title-5">
+  <header class="mast"><span class="brand">KARHUTLA<em>.AI</em></span><span class="chapter">Produk / Pemantauan</span></header>
+  <h2 id="title-5">Empat kamera. <span class="accent">Satu ruang pemantauan.</span></h2>
+  <div class="body product-grid"><figure><div class="shot"><img class="image" src="assets/cctv.png" width="1920" height="1080" alt="Screenshot aplikasi KARHUTLA.AI yang menampilkan empat kamera dalam grid 2 × 2 dan peringatan asap pada CAM-002."></div><figcaption class="caption">Screenshot aplikasi · empat kamera memakai replay footage referensi. Sumber video: 8K, James Cheney, Florian Hillmann / Pexels.</figcaption></figure>
+    <div class="stack"><div><div class="metric">2 × 2</div><p class="metric-label">Grid CCTV pada MVP</p></div><article class="list-row"><h3>Smoke & fire</h3><p>Inference YOLO pada frame video, dengan overlay AI dan snapshot evidence.</p></article><article class="list-row"><h3>Alarm visual</h3><p>Kandidat masuk antrean untuk ditinjau operator.</p></article><article class="list-row"><h3>Fokus pemeriksaan</h3><p>Perbesar kamera dan tampilkan wall CCTV dalam layar penuh.</p></article></div>
+  </div>
+  <footer class="footer"><span>IMPLEMENTED / Video replay; deteksi berasal dari inference model.</span><span class="page">05 / 12</span></footer>
+</section></div>
+
+<div class="frame"><section class="slide" id="slide-6" aria-labelledby="title-6">
+  <header class="mast"><span class="brand">KARHUTLA<em>.AI</em></span><span class="chapter">Produk / Verifikasi</span></header>
+  <h2 id="title-6">Keputusan manusia<br><span class="accent">ada di tengah alur.</span></h2><p class="lead">Kandidat AI memulai proses pemeriksaan. Operator menentukan tindak lanjutnya.</p>
+  <div class="body columns"><div class="process-list"><article><span class="index">01</span><div><h3>Tinjau bukti</h3><p>Periksa kategori, confidence, waktu, kamera, dan snapshot. Confidence bukan ukuran akurasi model.</p></div></article><article><span class="index">02</span><div><h3>Periksa perkiraan lokasi</h3><p>Titik awal memakai arah kamera dan asumsi jarak. Operator dapat mengoreksi titik secara manual.</p></div></article><article><span class="index">03</span><div><h3>Verifikasi atau tolak</h3><p>Konfirmasi insiden atau tandai alarm palsu. Penutupan kejadian tetap merupakan keputusan operator.</p></div></article></div>
+    <aside class="approval"><span class="eyebrow">Ringkasan alur persetujuan</span><h3>Respons memerlukan<br>otorisasi eksplisit.</h3><div class="checks"><span>Tinjau kandidat insiden</span><span>Pilih pemindaian atau payload virtual</span><span>Konfirmasi sebelum misi dimulai</span></div><div class="decision">Verifikasi & kirim drone otomatis →</div><p class="note" style="margin-top:1.2cqw">Ilustrasi alur, bukan dialog interaktif. Lokasi dan misi drone belum divalidasi untuk operasi lapangan.</p></aside>
+  </div>
+  <footer class="footer"><span>HUMAN IN THE LOOP / Persetujuan, koreksi lokasi, dan penutupan tercatat.</span><span class="page">06 / 12</span></footer>
+</section></div>
+
+<div class="frame"><section class="slide" id="slide-7" aria-labelledby="title-7">
+  <header class="mast"><span class="brand">KARHUTLA<em>.AI</em></span><span class="chapter">Produk / Koordinasi</span></header>
+  <h2 id="title-7">Baca situasinya.<br><span class="accent">Hubungkan responsnya.</span></h2>
+  <div class="body map-grid"><figure><div class="shot"><img class="image" src="assets/map.png" width="840" height="497" alt="Peta demonstrasi dengan sektor kamera, indikasi asap, regu, drone virtual, dan atribusi OpenStreetMap."></div><figcaption class="caption">Cuplikan peta dari build demo sebelumnya (tiga kamera). Versi CCTV kini empat kamera. © OpenStreetMap contributors.</figcaption></figure>
+    <div class="stack"><article class="list-row"><h3>Konteks dalam satu peta</h3><p>Kamera, sektor pantauan, insiden, resource, dan rute virtual.</p></article><article class="list-row"><h3>Alur kerja regu</h3><p>Operator menugaskan; petugas menerima dan memperbarui status penanganan.</p><div class="status-line"><span>Berangkat</span> → <span>Tiba</span> → <span>Selesai</span></div></article><article class="list-row"><h3>Status yang tersambung</h3><p>Pembaruan melalui WebSocket; pemulihan state melalui REST saat koneksi tersambung kembali.</p></article><p class="note">Koordinat adalah demonstrasi. Perjalanan regu dan drone disimulasikan, bukan navigasi jalan.</p></div>
+  </div>
+  <footer class="footer"><span>CONNECTED WORKFLOW / Operator · Petugas damkar · POV drone</span><span class="page">07 / 12</span></footer>
+</section></div>
+
+<div class="frame"><section class="slide" id="slide-8" aria-labelledby="title-8">
+  <header class="mast"><span class="brand">KARHUTLA<em>.AI</em></span><span class="chapter">Produk / Drone virtual</span></header>
+  <h2 id="title-8">Visualisasikan misi,<br>dari pemindaian hingga kembali.</h2>
+  <div class="body"><div class="drone-grid"><figure><div class="drone-title"><h3>01 / Pemindaian area</h3><span class="pill sim">SIMULASI</span></div><div class="shot"><img class="image" src="assets/drone.png" width="1440" height="1072" alt="Screenshot POV drone pada tahap pemindaian virtual, menggunakan replay footage kebakaran."></div></figure><figure><div class="drone-title"><h3>02 / Pelepasan air virtual</h3><span class="pill sim">SIMULASI</span></div><div class="shot"><img class="image" src="assets/payload.png" width="1440" height="1072" alt="Screenshot tahap pelepasan payload virtual dengan replay helikopter melepas air, bukan drone fisik."></div></figure></div>
+    <p class="drone-note">Footage asli diputar ulang; penerbangan, lokasi, baterai, dan payload tetap virtual. Pelepasan air tidak otomatis menyatakan insiden teratasi.</p>
+  </div>
+  <footer class="footer"><span>Screenshot QA dengan fixture misi · Footage: 8K / Pexels · Peta: © OpenStreetMap contributors</span><span class="page">08 / 12</span></footer>
+</section></div>
+
+<div class="frame"><section class="slide" id="slide-9" aria-labelledby="title-9">
+  <header class="mast"><span class="brand">KARHUTLA<em>.AI</em></span><span class="chapter">Teknologi</span></header>
+  <h2 id="title-9">AI terhubung ke sistem operasional.</h2><p class="lead">Empat service lokal melalui Docker Compose: frontend, backend, vision worker, dan database.</p>
+  <div class="body"><div class="architecture" aria-label="Arsitektur sistem dari video menuju dashboard"><article><span class="eyebrow">01 / INPUT</span><h3>Kamera<br>& video</h3><p>Frame video dan preview pemantauan.</p><div class="tech">MP4 demo<br>Adapter RTSP / webcam</div></article><article><span class="eyebrow">02 / VISION WORKER</span><h3>Deteksi<br>& evidence</h3><p>Confidence filter, validasi temporal, snapshot kandidat.</p><div class="tech">OpenCV · Ultralytics YOLO<br>Weights smoke / fire</div></article><article><span class="eyebrow">03 / BACKEND</span><h3>Workflow<br>& persistensi</h3><p>Insiden, dispatch, misi virtual, dan aktivitas.</p><div class="tech">FastAPI · PostgreSQL<br>REST / WebSocket</div></article><article><span class="eyebrow">04 / FRONTEND</span><h3>Dashboard<br>tiga role</h3><p>Operator, petugas damkar, dan POV drone.</p><div class="tech">Next.js · React<br>MapLibre</div></article></div>
+    <div class="tech-bottom"><p><strong>Kandidat yang dapat ditelusuri.</strong><br>Class, confidence, bbox, timestamp, snapshot, dan fingerprint weights disimpan.</p><p><strong>State yang dapat dipulihkan.</strong><br>Riwayat tersimpan di database; REST membantu resinkronisasi setelah WebSocket reconnect.</p></div>
+  </div>
+  <footer class="footer"><span>Demo MP4 teruji; RTSP/webcam belum diuji pada perangkat nyata. Basemap aplikasi membutuhkan internet.</span><span class="page">09 / 12</span></footer>
+</section></div>
+
+
+<div class="frame"><section class="slide light" id="slide-11" aria-labelledby="title-11">
+  <header class="mast"><span class="brand">KARHUTLA<em>.AI</em></span><span class="chapter">Dampak yang dituju</span></header>
+  <h2 id="title-11">Mendukung perlindungan hutan<br>melalui respons yang lebih terarah.</h2><p class="lead">Kontribusi yang ingin diuji: informasi yang relevan, koordinasi yang jelas, dan proses yang dapat dievaluasi.</p>
+  <div class="body three"><article class="card impact-card"><span class="num">01</span><h3>Peninjauan<br>lebih terarah</h3><p>Kandidat dan evidence membantu operator memusatkan perhatian pada indikasi yang perlu diperiksa.</p><div class="measure"><b>UKUR PADA PILOT</b>Waktu dari kandidat masuk hingga keputusan operator.</div></article><article class="card impact-card"><span class="num">02</span><h3>Kualitas<br>indikasi terukur</h3><p>Evaluasi data lokal untuk memahami deteksi yang benar, alarm palsu, dan indikasi yang terlewat.</p><div class="measure"><b>UKUR PADA PILOT</b>Precision, recall, dan alarm palsu per jam kamera.</div></article><article class="card impact-card"><span class="num">03</span><h3>Respons<br>dapat ditelusuri</h3><p>Riwayat penugasan dan status membantu mengevaluasi alur penanganan bersama calon pengguna.</p><div class="measure"><b>UKUR PADA PILOT</b>Waktu penerimaan tugas dan kelengkapan laporan.</div></article></div>
+  <footer class="footer"><span>Target evaluasi yang diusulkan; belum ada hasil pilot atau dampak lingkungan terukur.</span><span class="page">11 / 12</span></footer>
+</section></div>
+
+<div class="frame"><section class="slide" id="slide-12" aria-labelledby="title-12">
+  <header class="mast"><span class="brand">KARHUTLA<em>.AI</em></span><span class="chapter">Langkah berikutnya</span></header>
+  <h2 id="title-12">Dari MVP menuju pilot lapangan.</h2><p class="lead">Tahap pengembangan yang diusulkan, dimulai dari validasi sebelum integrasi operasional.</p>
+  <div class="body"><div class="roadmap"><article><span class="eyebrow">01 / VALIDASI LOKAL</span><h3>Uji kualitas deteksi</h3><p>Bangun dataset berlabel dari kondisi setempat; evaluasi asap, api, kabut, dan kondisi normal.</p></article><article><span class="eyebrow">02 / PILOT KAMERA</span><h3>Uji alur pengguna</h3><p>Uji RTSP nyata, kapasitas inference, koneksi, dan workflow bersama calon operator.</p></article><article><span class="eyebrow">03 / KESIAPAN OPERASI</span><h3>Integrasikan perangkat</h3><p>Kembangkan autentikasi, geolokasi tervalidasi, integrasi hardware, dan prosedur operasional.</p></article></div>
+    <p class="closing">Mari uji, validasi, dan kembangkan<br><span class="accent">KARHUTLA.AI untuk kebutuhan lapangan.</span></p>
+    <p class="source-note">Dasar materi: README.md, ARCHITECTURE.md, DEMO_GUIDE.md, TEST_RESULTS.md · Dokumentasi proyek, 14–16 Oktober 2026.<br>Visual: screenshot aplikasi · Footage referensi Pexels, bukan rekaman Kalimantan · Peta © OpenStreetMap contributors.</p>
+  </div>
+  <footer class="footer"><span>KARHUTLA.AI / SUSTAINABILITY HACKATHON</span><span>Deteksi · Verifikasi · Koordinasi</span><span class="page">12 / 12</span></footer>
+</section></div>
+</main>
+<aside class="screen-help" aria-label="Petunjuk cetak dan sumber visual">
+  <p><strong>Cetak PDF:</strong> pilih Simpan sebagai PDF, skala 100%, margin tidak ada, aktifkan grafik latar belakang, dan nonaktifkan header/footer browser. Ukuran halaman mengikuti CSS 320 × 180 mm (16:9). Periksa 12 halaman sebelum menyimpan.</p>
+  <p>Gunakan tombol ← / →, Page Up / Page Down, Home / End untuk navigasi. Seluruh slide tetap tersedia tanpa JavaScript; gunakan Ctrl+P untuk mencetak.</p>
+  <p>Sumber visual: <a href="https://www.pexels.com/video/3859447/">Hutan / 8K</a> · <a href="https://www.pexels.com/video/33643167/">Kebakaran / 8K</a> · <a href="https://www.pexels.com/video/4124178/">Hutan / James Cheney</a> · <a href="https://www.pexels.com/video/12744994/">Hutan / Florian Hillmann</a> · <a href="https://www.pexels.com/video/29703477/">Pelepasan air / 8K</a> · <a href="https://www.pexels.com/license/">Pexels License</a> · <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>. Tautan sumber memerlukan internet; deck tidak.</p>
+</aside>
+<script>
+(() => {
+  const slides = Array.from(document.querySelectorAll('.slide'));
+  const toolbar = document.querySelector('.toolbar');
+  const previous = document.getElementById('previous');
+  const next = document.getElementById('next');
+  const position = document.getElementById('position');
+  let current = 0;
+  toolbar.hidden = false;
+  function update(index) {
+    current = Math.max(0, Math.min(slides.length - 1, index));
+    position.textContent = String(current + 1).padStart(2, '0') + ' / ' + slides.length;
+    previous.disabled = current === 0;
+    next.disabled = current === slides.length - 1;
+  }
+  function go(index) {
+    update(index);
+    slides[current].scrollIntoView({block:'start', behavior:'instant'});
+    try { history.replaceState(null, '', '#slide-' + (current + 1)); } catch (_) { /* Navigation still works when local history is restricted. */ }
+  }
+  previous.addEventListener('click', () => go(current - 1));
+  next.addEventListener('click', () => go(current + 1));
+  document.getElementById('print').addEventListener('click', () => window.print());
+  document.addEventListener('keydown', event => {
+    if (event.altKey || event.ctrlKey || event.metaKey || /INPUT|TEXTAREA|SELECT/.test(event.target.tagName) || event.target.isContentEditable) return;
+    const directions = {ArrowRight:1, ArrowLeft:-1, PageDown:1, PageUp:-1};
+    if (event.key in directions) { event.preventDefault(); go(current + directions[event.key]); }
+    else if (event.key === 'Home' || event.key === 'End') { event.preventDefault(); go(event.key === 'Home' ? 0 : slides.length - 1); }
+  });
+  let scheduled = false;
+  function syncScroll() {
+    if (scheduled) return;
+    scheduled = true;
+    requestAnimationFrame(() => {
+      const target = toolbar.getBoundingClientRect().bottom + 30;
+      let nearest = 0, distance = Infinity;
+      slides.forEach((slide, index) => { const d = Math.abs(slide.getBoundingClientRect().top - target); if (d < distance) { nearest = index; distance = d; } });
+      update(nearest); scheduled = false;
+    });
+  }
+  window.addEventListener('scroll', syncScroll, {passive:true});
+  window.addEventListener('resize', syncScroll);
+  function syncHash() {
+    const match = /^#slide-(\d+)$/.exec(location.hash);
+    if (match) go(Number(match[1]) - 1); else update(0);
+  }
+  window.addEventListener('hashchange', syncHash);
+  syncHash();
+})();
+</script>
+</body>
+</html>
